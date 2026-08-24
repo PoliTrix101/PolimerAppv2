@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
+
 import { AuthProvider, useAuth } from "../context/AuthContext";
 
 function MainLayout() {
@@ -13,11 +14,13 @@ function MainLayout() {
           <>
             <Stack.Screen name="login" />
             <Stack.Screen name="signin" />
+            <Stack.Screen name="signup" />
           </>
         ) : (
           <Stack.Screen name="(tabs)" />
         )}
       </Stack>
+
       <StatusBar style="auto" />
     </>
   );
