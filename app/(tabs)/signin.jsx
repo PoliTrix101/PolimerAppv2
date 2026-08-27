@@ -14,7 +14,8 @@ import {
 
 import { useAuth } from "../../context/AuthContext";
 
-const API_URL = "http://192.168.61.20:3000";
+// YOUR CURRENT BACKEND IP
+const API_URL = "http://192.168.1.124:3000";
 
 export default function SignIn() {
   const { setIsLogin } = useAuth();
@@ -24,7 +25,9 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
 
   const handleSignIn = async () => {
-    if (!username.trim() || !password.trim()) {
+    const cleanUsername = username.trim();
+
+    if (!cleanUsername || !password.trim()) {
       Alert.alert(
         "Missing Information",
         "Please enter your username and password."
@@ -37,7 +40,8 @@ export default function SignIn() {
 
       console.log("================================");
       console.log("LOGIN");
-      console.log("Username:", username);
+      console.log("Username:", cleanUsername);
+      console.log("Server:", API_URL);
       console.log("================================");
 
       const response = await fetch(`${API_URL}/api/login`, {
@@ -46,14 +50,34 @@ export default function SignIn() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          user_login: username.trim(),
+          user_login: cleanUsername,
           user_pass: password,
         }),
       });
 
-      const data = await response.json();
+      // Get response safely
+      const text = await response.text();
 
-      console.log("LOGIN RESPONSE:", data);
+      let data;
+
+      try {
+        data = JSON.parse(text);
+      } catch {
+        console.log("LOGIN RAW RESPONSE:", text);
+
+        Alert.alert(
+          "Server Error",
+          "The backend returned an invalid response."
+        );
+        return;
+      }
+
+      console.log(
+        "LOGIN RESPONSE:",
+        JSON.stringify(data, null, 2)
+      );
+
+      console.log("HTTP STATUS:", response.status);
 
       if (!response.ok || !data.success) {
         Alert.alert(
@@ -63,16 +87,21 @@ export default function SignIn() {
         return;
       }
 
+      console.log("LOGIN SUCCESS!");
+
       setIsLogin(true);
 
       router.replace("/(tabs)");
 
     } catch (error) {
-      console.log("LOGIN ERROR:", error);
+      console.log("================================");
+      console.log("LOGIN ERROR");
+      console.log(error);
+      console.log("================================");
 
       Alert.alert(
         "Connection Error",
-        "Could not connect to the backend server."
+        `Could not connect to the backend server.\n\nServer: ${API_URL}\n\nMake sure your backend is running.`
       );
     } finally {
       setLoading(false);
@@ -83,7 +112,9 @@ export default function SignIn() {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={
-        Platform.OS === "ios" ? "padding" : undefined
+        Platform.OS === "ios"
+          ? "padding"
+          : undefined
       }
     >
       <View style={styles.form}>
@@ -157,6 +188,7 @@ export default function SignIn() {
         <TouchableOpacity
           style={styles.createButton}
           onPress={() => router.push("/signup")}
+          disabled={loading}
         >
           <Text style={styles.createButtonText}>
             Create Account
@@ -207,6 +239,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginBottom: 15,
     backgroundColor: "#fff",
+    fontSize: 16,
   },
 
   signInButton: {

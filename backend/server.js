@@ -36,7 +36,6 @@ app.get("/", (req, res) => {
 
 // ==================================================
 // TEST DATABASE
-// GET /api/test-db
 // ==================================================
 
 app.get("/api/test-db", async (req, res) => {
@@ -61,7 +60,6 @@ app.get("/api/test-db", async (req, res) => {
 
 // ==================================================
 // GET ALL USERS
-// GET /api/users
 // ==================================================
 
 app.get("/api/users", async (req, res) => {
@@ -101,7 +99,6 @@ app.get("/api/users", async (req, res) => {
 
 // ==================================================
 // GET USER BY ID
-// GET /api/users/:id
 // ==================================================
 
 app.get("/api/users/:id", async (req, res) => {
@@ -165,10 +162,11 @@ app.get("/api/users/:id", async (req, res) => {
 
 app.post("/api/login", async (req, res) => {
     try {
-        console.log("================================");
+        console.log("\n====================================");
         console.log("LOGIN REQUEST");
-        console.log("Username:", req.body?.user_login);
-        console.log("================================");
+        console.log("====================================");
+
+        console.log("Request body:", req.body);
 
         const { user_login, user_pass } = req.body || {};
 
@@ -178,18 +176,30 @@ app.post("/api/login", async (req, res) => {
 
         if (
             typeof user_login !== "string" ||
-            typeof user_pass !== "string" ||
-            user_login.trim() === "" ||
-            user_pass.trim() === ""
+            typeof user_pass !== "string"
         ) {
+            console.log("❌ Invalid request format");
+
+            return res.status(400).json({
+                success: false,
+                message: "user_login and user_pass must be strings",
+            });
+        }
+
+        const username = user_login.trim();
+        const password = user_pass.trim();
+
+        if (username === "" || password === "") {
+            console.log("❌ Empty username or password");
+
             return res.status(400).json({
                 success: false,
                 message: "Username and password are required",
             });
         }
 
-        const username = user_login.trim();
-        const password = user_pass.trim();
+        console.log("Username received:", username);
+        console.log("Password length:", password.length);
 
         // ------------------------------------------
         // FIND USER
@@ -217,11 +227,16 @@ app.post("/api/login", async (req, res) => {
             args: [username],
         });
 
+        console.log("Users found:", result.rows.length);
+
         // ------------------------------------------
         // USER NOT FOUND
         // ------------------------------------------
 
         if (result.rows.length === 0) {
+            console.log("❌ USER NOT FOUND");
+            console.log("Username searched:", username);
+
             return res.status(401).json({
                 success: false,
                 message: "Invalid username or password",
@@ -230,22 +245,33 @@ app.post("/api/login", async (req, res) => {
 
         const user = result.rows[0];
 
+        console.log("User ID:", user.user_id);
+        console.log("Database username:", user.user_login);
+        console.log("Database password length:", String(user.user_pass).length);
+        console.log("isActive:", user.isActive);
+
         // ------------------------------------------
         // CHECK PASSWORD
         // ------------------------------------------
 
-        if (String(user.user_pass) !== password) {
+        if (String(user.user_pass).trim() !== password) {
+            console.log("❌ PASSWORD DOES NOT MATCH");
+
             return res.status(401).json({
                 success: false,
                 message: "Invalid username or password",
             });
         }
 
+        console.log("✅ PASSWORD MATCH");
+
         // ------------------------------------------
         // CHECK ACTIVE ACCOUNT
         // ------------------------------------------
 
         if (Number(user.isActive) !== 1) {
+            console.log("❌ ACCOUNT INACTIVE");
+
             return res.status(403).json({
                 success: false,
                 message: "This account is inactive",
@@ -253,13 +279,17 @@ app.post("/api/login", async (req, res) => {
         }
 
         // ------------------------------------------
+        // REMOVE PASSWORD
+        // ------------------------------------------
+
+        delete user.user_pass;
+
+        // ------------------------------------------
         // LOGIN SUCCESS
         // ------------------------------------------
 
-        // Don't send password back to the app
-        delete user.user_pass;
-
-        console.log("LOGIN SUCCESS:", username);
+        console.log("✅ LOGIN SUCCESS:", username);
+        console.log("====================================\n");
 
         return res.status(200).json({
             success: true,
@@ -268,7 +298,7 @@ app.post("/api/login", async (req, res) => {
         });
 
     } catch (error) {
-        console.error("LOGIN ERROR:", error);
+        console.error("❌ LOGIN ERROR:", error);
 
         return res.status(500).json({
             success: false,
@@ -280,7 +310,6 @@ app.post("/api/login", async (req, res) => {
 
 // ==================================================
 // CREATE USER
-// POST /api/users
 // ==================================================
 
 app.post("/api/users", async (req, res) => {
@@ -402,7 +431,6 @@ app.post("/api/users", async (req, res) => {
 
 // ==================================================
 // UPDATE USER
-// PUT /api/users/:id
 // ==================================================
 
 app.put("/api/users/:id", async (req, res) => {
@@ -542,7 +570,6 @@ app.put("/api/users/:id", async (req, res) => {
 
 // ==================================================
 // DELETE USER
-// DELETE /api/users/:id
 // ==================================================
 
 app.delete("/api/users/:id", async (req, res) => {
@@ -591,7 +618,6 @@ app.delete("/api/users/:id", async (req, res) => {
 
 // ==================================================
 // DEBUG USERS TABLE
-// GET /api/debug/users
 // ==================================================
 
 app.get("/api/debug/users", async (req, res) => {
@@ -639,6 +665,7 @@ if (require.main === module) {
         console.log("🚀 POLIMERAPP API");
         console.log("====================================");
         console.log(`Local: http://localhost:${PORT}`);
+        console.log(`Network: http://192.168.1.124:${PORT}`);
         console.log(`Port: ${PORT}`);
         console.log("====================================");
         console.log("");
