@@ -170,7 +170,7 @@ export default function Gallery() {
       setPhotos((current) => [destination, ...current]);
 
       Alert.alert(
-        "Photo Saved",
+        "Photo Saved! 🐾",
         "Your photo has been added to your gallery.",
         [
           {
@@ -192,7 +192,7 @@ export default function Gallery() {
   };
 
   // ===============================
-  // CAMERA VIEW
+  // CAMERA SCREEN
   // ===============================
 
   if (cameraOpen) {
@@ -204,31 +204,33 @@ export default function Gallery() {
           facing={facing}
           onCameraReady={() => setCameraReady(true)}
         >
-          <View style={styles.cameraPattern} />
+          {/* TOP DECORATION */}
+          <View style={styles.cameraTopGlow} />
 
           {/* TOP BAR */}
           <View style={styles.cameraTop}>
             <TouchableOpacity
-              style={styles.roundButton}
+              style={styles.cameraRoundButton}
               onPress={closeCamera}
             >
-              <Text style={styles.roundButtonText}>×</Text>
+              <Text style={styles.cameraRoundText}>×</Text>
             </TouchableOpacity>
 
             <View style={styles.cameraTitleBox}>
               <Text style={styles.cameraTitle}>
-                POLIMERAPP
+                KUROMIAPP
               </Text>
+
               <Text style={styles.cameraSubtitle}>
-                CAMERA
+                PET CAMERA ♡
               </Text>
             </View>
 
             <TouchableOpacity
-              style={styles.roundButton}
+              style={styles.cameraRoundButton}
               onPress={switchCamera}
             >
-              <Text style={styles.roundButtonText}>↻</Text>
+              <Text style={styles.cameraRoundText}>↻</Text>
             </TouchableOpacity>
           </View>
 
@@ -237,19 +239,19 @@ export default function Gallery() {
             <View style={styles.cameraLoading}>
               <ActivityIndicator
                 size="large"
-                color="#F4D06F"
+                color="#FF5FA2"
               />
 
               <Text style={styles.cameraLoadingText}>
-                Starting camera...
+                Getting camera ready...
               </Text>
             </View>
           )}
 
-          {/* BOTTOM */}
+          {/* CAMERA BOTTOM */}
           <View style={styles.cameraBottom}>
             <Text style={styles.cameraHint}>
-              Capture a special moment
+              🐾 Capture your favorite moment ♡
             </Text>
 
             <TouchableOpacity
@@ -264,10 +266,12 @@ export default function Gallery() {
               {takingPicture ? (
                 <ActivityIndicator
                   size="large"
-                  color="#31572C"
+                  color="#8E44AD"
                 />
               ) : (
-                <View style={styles.captureInner} />
+                <View style={styles.captureInner}>
+                  <Text style={styles.captureIcon}>♡</Text>
+                </View>
               )}
             </TouchableOpacity>
           </View>
@@ -282,18 +286,32 @@ export default function Gallery() {
 
   return (
     <View style={styles.container}>
-      {/* DECORATIVE BAMBOO LINES */}
-      <View style={styles.topPattern}>
-        <View style={styles.patternLineOne} />
-        <View style={styles.patternLineTwo} />
-        <View style={styles.patternLineThree} />
+
+      {/* ===============================
+          DECORATIVE BACKGROUND
+      =============================== */}
+
+      <View style={styles.backgroundDecor}>
+        <View style={styles.purpleBlob} />
+        <View style={styles.pinkBlob} />
+
+        <Text style={styles.decorHeart1}>♡</Text>
+        <Text style={styles.decorHeart2}>♡</Text>
+        <Text style={styles.decorStar1}>✦</Text>
+        <Text style={styles.decorStar2}>✧</Text>
+        <Text style={styles.decorPaw1}>🐾</Text>
+        <Text style={styles.decorPaw2}>🐾</Text>
       </View>
 
-      {/* HEADER */}
+      {/* ===============================
+          HEADER
+      =============================== */}
+
       <View style={styles.header}>
-        <View style={styles.headerText}>
+
+        <View>
           <Text style={styles.smallTitle}>
-            POLIMERAPP
+            ♡ KUROMIAPP ♡
           </Text>
 
           <Text style={styles.title}>
@@ -301,7 +319,7 @@ export default function Gallery() {
           </Text>
 
           <Text style={styles.subtitle}>
-            Memories worth keeping
+            Little memories, big smiles 🐾
           </Text>
         </View>
 
@@ -314,79 +332,86 @@ export default function Gallery() {
             PHOTOS
           </Text>
         </View>
+
       </View>
 
-      {/* DECORATIVE CROSSLINE */}
-      <View style={styles.crossPattern}>
-        <View style={styles.crossLine} />
-        <View style={styles.crossLineDiagonal} />
-      </View>
+      {/* ===============================
+          WELCOME BANNER
+      =============================== */}
 
-      {/* CAMERA CARD */}
-      <TouchableOpacity
-        style={styles.cameraCard}
-        activeOpacity={0.9}
-        onPress={openCamera}
-      >
-        <View style={styles.cameraIconCircle}>
-          <Text style={styles.cameraIcon}>📷</Text>
-        </View>
+      <View style={styles.petBanner}>
 
-        <View style={styles.cameraCardText}>
-          <Text style={styles.cameraCardTitle}>
-            Capture a Moment
-          </Text>
-
-          <Text style={styles.cameraCardSubtitle}>
-            Take a new photo for your collection
+        <View style={styles.petCircle}>
+          <Text style={styles.petEmoji}>
+            🐾
           </Text>
         </View>
 
-        <View style={styles.arrowCircle}>
-          <Text style={styles.arrow}>›</Text>
-        </View>
-      </TouchableOpacity>
+        <View style={styles.petBannerText}>
+          <Text style={styles.petBannerTitle}>
+            Happy Memories!
+          </Text>
 
-      {/* CONTENT */}
+          <Text style={styles.petBannerSubtitle}>
+            Keep your cutest moments safe ♡
+          </Text>
+        </View>
+
+        <Text style={styles.bannerHeart}>
+          ♥
+        </Text>
+
+      </View>
+
+      {/* ===============================
+          CONTENT
+      =============================== */}
+
       <View style={styles.content}>
+
         {loading ? (
           <View style={styles.center}>
+
             <ActivityIndicator
               size="large"
-              color="#31572C"
+              color="#A855F7"
             />
 
             <Text style={styles.loadingText}>
               Loading your memories...
             </Text>
+
           </View>
+
         ) : photos.length === 0 ? (
+
           <View style={styles.empty}>
-            <View style={styles.emptyPattern}>
-              <View style={styles.emptyCrossOne} />
-              <View style={styles.emptyCrossTwo} />
-              <Text style={styles.emptyIcon}>📷</Text>
+
+            <View style={styles.emptyCircle}>
+              <Text style={styles.emptyPaw}>
+                🐾
+              </Text>
             </View>
 
             <Text style={styles.emptyTitle}>
-              Your Gallery is Empty
+              No Memories Yet
             </Text>
 
             <Text style={styles.emptyText}>
-              Start building your collection by taking
-              your first photo.
+              Your gallery is waiting for some
+              cute memories!
             </Text>
 
-            <TouchableOpacity
-              style={styles.emptyButton}
-              onPress={openCamera}
-            >
-              <Text style={styles.emptyButtonText}>
-                Open Camera
-              </Text>
-            </TouchableOpacity>
+            <View style={styles.emptyDecor}>
+              <Text>♡</Text>
+              <Text>✦</Text>
+              <Text>♡</Text>
+            </View>
+
           </View>
+
         ) : (
+
           <FlatList
             data={photos}
             keyExtractor={(item) => item}
@@ -395,50 +420,101 @@ export default function Gallery() {
             contentContainerStyle={styles.gallery}
             columnWrapperStyle={styles.row}
             renderItem={({ item, index }) => (
+
               <TouchableOpacity
-                style={[
-                  styles.photoCard,
-                  index % 3 === 0 && styles.tallCard,
-                ]}
+                style={styles.photoCard}
                 activeOpacity={0.9}
                 onPress={() => setSelectedPhoto(item)}
               >
+
                 <Image
                   source={{ uri: item }}
                   style={styles.photo}
                   resizeMode="cover"
                 />
 
-                {/* PHOTO FRAME */}
                 <View style={styles.photoFrame} />
 
-                <View style={styles.photoOverlay}>
-                  <Text style={styles.photoNumber}>
+                <View style={styles.photoBadge}>
+                  <Text style={styles.photoBadgeText}>
                     {index + 1}
                   </Text>
                 </View>
+
+                <View style={styles.heartBadge}>
+                  <Text style={styles.heartBadgeText}>
+                    ♥
+                  </Text>
+                </View>
+
               </TouchableOpacity>
+
             )}
           />
+
         )}
+
       </View>
 
-      {/* FULLSCREEN */}
+      {/* ===============================
+          FLOATING CAMERA BUTTON
+      =============================== */}
+
+      <TouchableOpacity
+        style={styles.floatingCamera}
+        activeOpacity={0.85}
+        onPress={openCamera}
+      >
+
+        <View style={styles.cameraIconCircle}>
+          <Text style={styles.cameraIcon}>
+            📷
+          </Text>
+        </View>
+
+        <View>
+          <Text style={styles.cameraButtonTitle}>
+            Open Camera
+          </Text>
+
+          <Text style={styles.cameraButtonSubtitle}>
+            Capture a memory ♡
+          </Text>
+        </View>
+
+      </TouchableOpacity>
+
+      {/* ===============================
+          FULLSCREEN PHOTO
+      =============================== */}
+
       <Modal
         visible={selectedPhoto !== null}
         transparent
         animationType="fade"
-        onRequestClose={() => setSelectedPhoto(null)}
+        onRequestClose={() =>
+          setSelectedPhoto(null)
+        }
       >
-        <View style={styles.fullscreen}>
-          <View style={styles.fullscreenPattern} />
 
-          <TouchableOpacity
-            style={styles.closeFullscreen}
-            onPress={() => setSelectedPhoto(null)}
-          >
-            <Text style={styles.closeText}>×</Text>
-          </TouchableOpacity>
+        <View style={styles.fullscreen}>
+
+          <View style={styles.fullscreenTop}>
+            <Text style={styles.fullscreenTitle}>
+              Your Memory ♡
+            </Text>
+
+            <TouchableOpacity
+              style={styles.closeFullscreen}
+              onPress={() =>
+                setSelectedPhoto(null)
+              }
+            >
+              <Text style={styles.closeText}>
+                ×
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           {selectedPhoto && (
             <Image
@@ -447,8 +523,15 @@ export default function Gallery() {
               resizeMode="contain"
             />
           )}
+
+          <Text style={styles.fullscreenBottom}>
+            ♡ precious memory ♡
+          </Text>
+
         </View>
+
       </Modal>
+
     </View>
   );
 }
@@ -458,53 +541,88 @@ export default function Gallery() {
 // ======================================================
 
 const styles = StyleSheet.create({
+
+  // ===============================
+  // MAIN
+  // ===============================
+
   container: {
     flex: 1,
-    backgroundColor: "#F6F0E4",
+    backgroundColor: "#FFF8FC",
   },
 
-  // ===============================
-  // TOP PATTERN
-  // ===============================
-
-  topPattern: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 130,
+  backgroundDecor: {
+    ...StyleSheet.absoluteFillObject,
     overflow: "hidden",
-    opacity: 0.15,
   },
 
-  patternLineOne: {
+  purpleBlob: {
     position: "absolute",
-    width: "150%",
-    height: 8,
-    backgroundColor: "#31572C",
-    transform: [{ rotate: "25deg" }],
-    top: 30,
-    left: -70,
+    width: 240,
+    height: 240,
+    borderRadius: 120,
+    backgroundColor: "#E9D5FF",
+    top: -120,
+    right: -80,
   },
 
-  patternLineTwo: {
+  pinkBlob: {
     position: "absolute",
-    width: "150%",
-    height: 8,
-    backgroundColor: "#31572C",
-    transform: [{ rotate: "-25deg" }],
-    top: 30,
-    left: -70,
+    width: 210,
+    height: 210,
+    borderRadius: 105,
+    backgroundColor: "#FFD6E9",
+    bottom: -100,
+    left: -80,
   },
 
-  patternLineThree: {
+  decorHeart1: {
     position: "absolute",
-    width: "150%",
-    height: 3,
-    backgroundColor: "#A66A3F",
-    transform: [{ rotate: "25deg" }],
-    top: 70,
-    left: -70,
+    top: 120,
+    left: 20,
+    fontSize: 28,
+    color: "#F472B6",
+    fontWeight: "900",
+  },
+
+  decorHeart2: {
+    position: "absolute",
+    top: 200,
+    right: 25,
+    fontSize: 25,
+    color: "#A855F7",
+  },
+
+  decorStar1: {
+    position: "absolute",
+    bottom: 160,
+    left: 25,
+    fontSize: 22,
+    color: "#C084FC",
+  },
+
+  decorStar2: {
+    position: "absolute",
+    bottom: 100,
+    right: 30,
+    fontSize: 25,
+    color: "#F472B6",
+  },
+
+  decorPaw1: {
+    position: "absolute",
+    top: 260,
+    left: 15,
+    fontSize: 20,
+    opacity: 0.3,
+  },
+
+  decorPaw2: {
+    position: "absolute",
+    bottom: 230,
+    right: 15,
+    fontSize: 22,
+    opacity: 0.3,
   },
 
   // ===============================
@@ -515,159 +633,130 @@ const styles = StyleSheet.create({
     paddingTop: 55,
     paddingHorizontal: 22,
     paddingBottom: 20,
+
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
 
-  headerText: {
-    flex: 1,
+    backgroundColor: "#FFFFFF",
+    borderBottomLeftRadius: 32,
+    borderBottomRightRadius: 32,
+
+    borderBottomWidth: 3,
+    borderBottomColor: "#F472B6",
   },
 
   smallTitle: {
     fontSize: 11,
     fontWeight: "900",
-    letterSpacing: 3,
-    color: "#8A5A35",
+    letterSpacing: 2,
+    color: "#A855F7",
     marginBottom: 5,
   },
 
   title: {
-    fontSize: 32,
+    fontSize: 31,
     fontWeight: "900",
-    color: "#24351F",
+    color: "#5B216B",
   },
 
   subtitle: {
-    color: "#77705F",
-    fontSize: 14,
+    color: "#9C6FA8",
+    fontSize: 13,
     marginTop: 5,
   },
 
   photoCount: {
-    width: 65,
-    height: 65,
-    borderRadius: 18,
-    backgroundColor: "#31572C",
+    width: 66,
+    height: 66,
+    borderRadius: 22,
+
+    backgroundColor: "#A855F7",
+
     justifyContent: "center",
     alignItems: "center",
+
     borderWidth: 3,
-    borderColor: "#D9A441",
-    transform: [{ rotate: "3deg" }],
+    borderColor: "#F9A8D4",
+
+    transform: [{ rotate: "4deg" }],
   },
 
   photoCountNumber: {
-    color: "#fff",
-    fontSize: 21,
+    color: "#FFFFFF",
+    fontSize: 22,
     fontWeight: "900",
   },
 
   photoCountText: {
-    color: "#E8D9B8",
-    fontSize: 9,
-    fontWeight: "800",
+    color: "#FCE7F3",
+    fontSize: 8,
+    fontWeight: "900",
     marginTop: 2,
   },
 
   // ===============================
-  // CROSS PATTERN
+  // PET BANNER
   // ===============================
 
-  crossPattern: {
-    height: 18,
-    marginHorizontal: 20,
-    marginBottom: 10,
-    overflow: "hidden",
-    opacity: 0.3,
-  },
+  petBanner: {
+    marginHorizontal: 18,
+    marginTop: 14,
+    marginBottom: 12,
 
-  crossLine: {
-    position: "absolute",
-    left: -30,
-    right: -30,
-    height: 2,
-    top: 8,
-    backgroundColor: "#8A5A35",
-    transform: [{ rotate: "8deg" }],
-  },
+    padding: 14,
 
-  crossLineDiagonal: {
-    position: "absolute",
-    left: -30,
-    right: -30,
-    height: 2,
-    top: 8,
-    backgroundColor: "#8A5A35",
-    transform: [{ rotate: "-8deg" }],
-  },
+    borderRadius: 22,
 
-  // ===============================
-  // CAMERA CARD
-  // ===============================
+    backgroundColor: "#F3E8FF",
 
-  cameraCard: {
-    marginHorizontal: 20,
-    marginBottom: 15,
-    padding: 16,
-    borderRadius: 20,
-    backgroundColor: "#31572C",
     borderWidth: 2,
-    borderColor: "#D9A441",
+    borderColor: "#D8B4FE",
+
     flexDirection: "row",
     alignItems: "center",
-    elevation: 5,
-    shadowColor: "#31572C",
-    shadowOpacity: 0.2,
-    shadowRadius: 7,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
+
+    elevation: 3,
   },
 
-  cameraIconCircle: {
-    width: 53,
-    height: 53,
-    borderRadius: 17,
-    backgroundColor: "#E8D9B8",
+  petCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+
+    backgroundColor: "#FFFFFF",
+
     justifyContent: "center",
     alignItems: "center",
+
+    borderWidth: 2,
+    borderColor: "#F9A8D4",
   },
 
-  cameraIcon: {
+  petEmoji: {
     fontSize: 25,
   },
 
-  cameraCardText: {
+  petBannerText: {
     flex: 1,
-    marginLeft: 14,
+    marginLeft: 12,
   },
 
-  cameraCardTitle: {
-    color: "#fff",
-    fontSize: 17,
+  petBannerTitle: {
+    color: "#7E22CE",
+    fontSize: 16,
     fontWeight: "900",
   },
 
-  cameraCardSubtitle: {
-    color: "#DCE7D5",
-    fontSize: 12,
-    marginTop: 4,
+  petBannerSubtitle: {
+    color: "#9C6FA8",
+    fontSize: 11,
+    marginTop: 3,
   },
 
-  arrowCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: "#243F20",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  arrow: {
-    color: "#F4D06F",
-    fontSize: 27,
-    fontWeight: "300",
+  bannerHeart: {
+    color: "#EC4899",
+    fontSize: 22,
   },
 
   // ===============================
@@ -676,44 +765,56 @@ const styles = StyleSheet.create({
 
   content: {
     flex: 1,
-    backgroundColor: "#EFE7D5",
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    paddingTop: 16,
+
+    backgroundColor: "#FFFFFF",
+
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+
     borderTopWidth: 2,
-    borderTopColor: "#D9A441",
+    borderTopColor: "#F5D0FE",
+
+    paddingTop: 15,
   },
 
   gallery: {
     paddingHorizontal: 14,
-    paddingBottom: 40,
+    paddingBottom: 110,
   },
 
   row: {
     justifyContent: "space-between",
   },
 
+  // ===============================
+  // PHOTO CARDS
+  // ===============================
+
   photoCard: {
     width: "48%",
     height: 190,
+
     marginBottom: 14,
-    borderRadius: 17,
+
+    borderRadius: 22,
+
     overflow: "hidden",
-    backgroundColor: "#D8CDB7",
-    borderWidth: 3,
-    borderColor: "#fff",
-    elevation: 4,
-    shadowColor: "#5D4937",
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
+
+    backgroundColor: "#F3E8FF",
+
+    borderWidth: 4,
+    borderColor: "#FFFFFF",
+
+    elevation: 6,
+
+    shadowColor: "#A855F7",
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: 4,
     },
-  },
-
-  tallCard: {
-    height: 230,
   },
 
   photo: {
@@ -723,33 +824,120 @@ const styles = StyleSheet.create({
 
   photoFrame: {
     position: "absolute",
-    top: 5,
-    left: 5,
-    right: 5,
-    bottom: 5,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.6)",
-    borderRadius: 12,
+    top: 6,
+    left: 6,
+    right: 6,
+    bottom: 6,
+
+    borderWidth: 2,
+    borderColor: "rgba(255,255,255,0.7)",
+
+    borderRadius: 17,
   },
 
-  photoOverlay: {
+  photoBadge: {
     position: "absolute",
-    bottom: 8,
-    left: 8,
-    width: 27,
-    height: 27,
+    bottom: 9,
+    left: 9,
+
+    width: 28,
+    height: 28,
+
     borderRadius: 14,
-    backgroundColor: "#31572C",
+
+    backgroundColor: "#A855F7",
+
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#F4D06F",
+
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
   },
 
-  photoNumber: {
-    color: "#fff",
+  photoBadgeText: {
+    color: "#FFFFFF",
     fontSize: 11,
     fontWeight: "900",
+  },
+
+  heartBadge: {
+    position: "absolute",
+    top: 9,
+    right: 9,
+
+    width: 29,
+    height: 29,
+
+    borderRadius: 15,
+
+    backgroundColor: "#F472B6",
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+  },
+
+  heartBadgeText: {
+    color: "#FFFFFF",
+    fontSize: 13,
+  },
+
+  // ===============================
+  // EMPTY
+  // ===============================
+
+  empty: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+
+    paddingHorizontal: 45,
+  },
+
+  emptyCircle: {
+    width: 125,
+    height: 125,
+
+    borderRadius: 63,
+
+    backgroundColor: "#F3E8FF",
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderWidth: 4,
+    borderColor: "#F9A8D4",
+
+    marginBottom: 20,
+  },
+
+  emptyPaw: {
+    fontSize: 55,
+  },
+
+  emptyTitle: {
+    color: "#6B247C",
+    fontSize: 23,
+    fontWeight: "900",
+  },
+
+  emptyText: {
+    color: "#9C6FA8",
+    fontSize: 14,
+    textAlign: "center",
+    lineHeight: 21,
+    marginTop: 8,
+  },
+
+  emptyDecor: {
+    flexDirection: "row",
+    gap: 18,
+    marginTop: 15,
+
+    color: "#F472B6",
+    fontSize: 22,
   },
 
   // ===============================
@@ -763,82 +951,76 @@ const styles = StyleSheet.create({
   },
 
   loadingText: {
-    color: "#77705F",
+    color: "#9C6FA8",
     marginTop: 12,
+    fontSize: 13,
   },
 
   // ===============================
-  // EMPTY
+  // FLOATING CAMERA
   // ===============================
 
-  empty: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 40,
-  },
+  floatingCamera: {
+    position: "absolute",
 
-  emptyPattern: {
-    width: 110,
-    height: 110,
+    right: 18,
+    bottom: 25,
+
+    minWidth: 190,
+
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+
     borderRadius: 25,
-    backgroundColor: "#DCE7D5",
+
+    backgroundColor: "#A855F7",
+
+    flexDirection: "row",
+    alignItems: "center",
+
+    borderWidth: 3,
+    borderColor: "#F9A8D4",
+
+    elevation: 10,
+
+    shadowColor: "#7E22CE",
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+  },
+
+  cameraIconCircle: {
+    width: 45,
+    height: 45,
+
+    borderRadius: 23,
+
+    backgroundColor: "#FFFFFF",
+
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 20,
-    overflow: "hidden",
-    borderWidth: 2,
-    borderColor: "#31572C",
+
+    marginRight: 10,
   },
 
-  emptyCrossOne: {
-    position: "absolute",
-    width: 150,
-    height: 4,
-    backgroundColor: "#A66A3F",
-    transform: [{ rotate: "45deg" }],
+  cameraIcon: {
+    fontSize: 22,
   },
 
-  emptyCrossTwo: {
-    position: "absolute",
-    width: 150,
-    height: 4,
-    backgroundColor: "#A66A3F",
-    transform: [{ rotate: "-45deg" }],
-  },
-
-  emptyIcon: {
-    fontSize: 42,
-  },
-
-  emptyTitle: {
-    color: "#24351F",
-    fontSize: 23,
+  cameraButtonTitle: {
+    color: "#FFFFFF",
+    fontSize: 15,
     fontWeight: "900",
   },
 
-  emptyText: {
-    color: "#77705F",
-    fontSize: 14,
-    textAlign: "center",
-    lineHeight: 21,
-    marginTop: 8,
-    marginBottom: 22,
-  },
-
-  emptyButton: {
-    backgroundColor: "#31572C",
-    paddingHorizontal: 25,
-    paddingVertical: 14,
-    borderRadius: 14,
-    borderWidth: 2,
-    borderColor: "#D9A441",
-  },
-
-  emptyButtonText: {
-    color: "#fff",
-    fontWeight: "900",
-    fontSize: 14,
+  cameraButtonSubtitle: {
+    color: "#FCE7F3",
+    fontSize: 10,
+    marginTop: 2,
   },
 
   // ===============================
@@ -847,113 +1029,139 @@ const styles = StyleSheet.create({
 
   cameraContainer: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: "#160D1F",
   },
 
   camera: {
     flex: 1,
   },
 
-  cameraPattern: {
+  cameraTopGlow: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    height: 170,
-    backgroundColor: "rgba(49,87,44,0.15)",
+    height: 180,
+
+    backgroundColor: "rgba(168,85,247,0.18)",
   },
 
   cameraTop: {
     position: "absolute",
+
     top: 50,
-    left: 20,
-    right: 20,
+    left: 18,
+    right: 18,
+
     flexDirection: "row",
+
     alignItems: "center",
+
     justifyContent: "space-between",
   },
 
-  roundButton: {
+  cameraRoundButton: {
     width: 48,
     height: 48,
-    borderRadius: 17,
-    backgroundColor: "rgba(0,0,0,0.6)",
+
+    borderRadius: 18,
+
+    backgroundColor: "rgba(168,85,247,0.85)",
+
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "rgba(244,208,111,0.7)",
+
+    borderWidth: 2,
+    borderColor: "#F9A8D4",
   },
 
-  roundButtonText: {
-    color: "#fff",
-    fontSize: 27,
+  cameraRoundText: {
+    color: "#FFFFFF",
+    fontSize: 28,
     fontWeight: "500",
   },
 
   cameraTitleBox: {
-    paddingHorizontal: 18,
-    paddingVertical: 8,
-    borderRadius: 14,
-    backgroundColor: "rgba(49,87,44,0.85)",
-    borderWidth: 1,
-    borderColor: "#D9A441",
+    paddingHorizontal: 20,
+    paddingVertical: 9,
+
+    borderRadius: 18,
+
+    backgroundColor: "rgba(255,255,255,0.95)",
+
+    borderWidth: 2,
+    borderColor: "#F472B6",
+
     alignItems: "center",
   },
 
   cameraTitle: {
-    color: "#F4D06F",
+    color: "#7E22CE",
     fontSize: 11,
     fontWeight: "900",
     letterSpacing: 2,
   },
 
   cameraSubtitle: {
-    color: "#fff",
-    fontSize: 9,
+    color: "#EC4899",
+    fontSize: 8,
     marginTop: 2,
     letterSpacing: 1,
+    fontWeight: "800",
   },
 
   cameraLoading: {
     position: "absolute",
+
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
+
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.4)",
+
+    backgroundColor: "rgba(22,13,31,0.5)",
   },
 
   cameraLoadingText: {
-    color: "#fff",
+    color: "#FFFFFF",
     marginTop: 12,
+    fontSize: 13,
   },
 
   cameraBottom: {
     position: "absolute",
+
     bottom: 35,
     left: 0,
     right: 0,
+
     alignItems: "center",
   },
 
   cameraHint: {
-    color: "#fff",
+    color: "#FFFFFF",
     fontSize: 12,
-    marginBottom: 12,
-    opacity: 0.85,
+
+    marginBottom: 14,
+
+    opacity: 0.9,
   },
 
   captureButton: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
-    backgroundColor: "#fff",
+    width: 92,
+    height: 92,
+
+    borderRadius: 46,
+
+    backgroundColor: "#FFFFFF",
+
     justifyContent: "center",
     alignItems: "center",
+
     borderWidth: 5,
-    borderColor: "#D9A441",
+    borderColor: "#F472B6",
   },
 
   captureDisabled: {
@@ -961,12 +1169,23 @@ const styles = StyleSheet.create({
   },
 
   captureInner: {
-    width: 68,
-    height: 68,
-    borderRadius: 34,
-    backgroundColor: "#31572C",
+    width: 70,
+    height: 70,
+
+    borderRadius: 35,
+
+    backgroundColor: "#A855F7",
+
+    justifyContent: "center",
+    alignItems: "center",
+
     borderWidth: 4,
-    borderColor: "#fff",
+    borderColor: "#FFFFFF",
+  },
+
+  captureIcon: {
+    color: "#FFFFFF",
+    fontSize: 30,
   },
 
   // ===============================
@@ -975,18 +1194,52 @@ const styles = StyleSheet.create({
 
   fullscreen: {
     flex: 1,
-    backgroundColor: "#172216",
+
+    backgroundColor: "#160D1F",
+
     justifyContent: "center",
     alignItems: "center",
   },
 
-  fullscreenPattern: {
+  fullscreenTop: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 180,
-    backgroundColor: "rgba(217,164,65,0.08)",
+
+    top: 50,
+    left: 20,
+    right: 20,
+
+    flexDirection: "row",
+
+    alignItems: "center",
+    justifyContent: "space-between",
+
+    zIndex: 10,
+  },
+
+  fullscreenTitle: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "900",
+  },
+
+  closeFullscreen: {
+    width: 50,
+    height: 50,
+
+    borderRadius: 18,
+
+    backgroundColor: "#A855F7",
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderWidth: 2,
+    borderColor: "#F472B6",
+  },
+
+  closeText: {
+    color: "#FFFFFF",
+    fontSize: 28,
   },
 
   fullscreenImage: {
@@ -994,24 +1247,15 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 
-  closeFullscreen: {
+  fullscreenBottom: {
     position: "absolute",
-    top: 50,
-    right: 20,
-    width: 50,
-    height: 50,
-    borderRadius: 18,
-    backgroundColor: "rgba(49,87,44,0.9)",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 10,
-    borderWidth: 1,
-    borderColor: "#D9A441",
-  },
 
-  closeText: {
-    color: "#fff",
-    fontSize: 28,
-    fontWeight: "400",
+    bottom: 25,
+
+    color: "#F9A8D4",
+
+    fontSize: 12,
+    fontWeight: "800",
+    letterSpacing: 2,
   },
 });

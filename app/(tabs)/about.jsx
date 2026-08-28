@@ -1,139 +1,156 @@
+
+import { useState } from "react";
 import {
   Image,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 
 export default function About() {
+  const [showKuromi, setShowKuromi] = useState(false);
+
+  const handleProfilePress = () => {
+    setShowKuromi((current) => !current);
+  };
+
   return (
     <ScrollView
       style={styles.container}
       showsVerticalScrollIndicator={false}
     >
       {/* =========================
-          BAMBOO / BANIG BACKGROUND
-      ========================= */}
+          BACKGROUND
+      ========================== */}
+
       <View style={styles.backgroundPattern}>
-        {/* Vertical bamboo lines */}
-        {Array.from({ length: 12 }).map((_, index) => (
-          <View
-            key={`v-${index}`}
-            style={[
-              styles.bambooVertical,
-              {
-                left: index * 35,
-              },
-            ]}
-          />
-        ))}
+        <View style={styles.pinkCircle} />
+        <View style={styles.purpleCircle} />
+        <View style={styles.smallPinkCircle} />
 
-        {/* Horizontal bamboo lines */}
-        {Array.from({ length: 30 }).map((_, index) => (
-          <View
-            key={`h-${index}`}
-            style={[
-              styles.bambooHorizontal,
-              {
-                top: index * 35,
-              },
-            ]}
-          />
-        ))}
-
-        {/* Diagonal lines */}
-        <View style={styles.diagonalOne} />
-        <View style={styles.diagonalTwo} />
-        <View style={styles.diagonalThree} />
-        <View style={styles.diagonalFour} />
+        <Text style={styles.decorOne}>✦</Text>
+        <Text style={styles.decorTwo}>♡</Text>
+        <Text style={styles.decorThree}>✧</Text>
+        <Text style={styles.decorFour}>♡</Text>
       </View>
 
       {/* =========================
           HEADER
-      ========================= */}
+      ========================== */}
 
       <View style={styles.header}>
-        <Text style={styles.kasaysayan}>
-          TUNGKOL SA AKIN
+        <Text style={styles.headerSmall}>
+          ABOUT ME
         </Text>
 
-        {/* Filipino sun */}
-        <View style={styles.sun}>
-          <Text style={styles.sunText}>☀</Text>
-        </View>
+        {/* =========================
+            FLIPPABLE PROFILE
+        ========================== */}
 
-        {/* PROFILE */}
-        <View style={styles.avatarWrapper}>
-          <Image
-            source={require("../../assets/images/profile.jpg")}
-            style={styles.avatar}
-          />
-        </View>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={handleProfilePress}
+          style={styles.avatarWrapper}
+        >
+          {showKuromi ? (
+            <View style={styles.imageSide}>
+              <Image
+                source={require("../../assets/images/KUROMIv2.png")}
+                style={styles.avatar}
+                resizeMode="contain"
+              />
+            </View>
+          ) : (
+            <View style={styles.imageSide}>
+              <Image
+                source={require("../../assets/images/Joan.jpg")}
+                style={styles.avatar}
+                resizeMode="cover"
+              />
+            </View>
+          )}
+        </TouchableOpacity>
 
-        <Text style={styles.title}>ABOUT ME</Text>
+        {/* IMAGE NAME */}
+        <Text style={styles.imageName}>
+          {showKuromi ? "KUROMI" : "JOAN"}
+        </Text>
+
+        <Text style={styles.flipHint}>
+          Tap the image to flip ♡
+        </Text>
+
+        <Text style={styles.title}>
+          About Me
+        </Text>
 
         <Text style={styles.subtitle}>
-          POLIMERAPP
+          KUROMIAPP
         </Text>
 
-        <View style={styles.divider} />
+        <View style={styles.divider}>
+          <View style={styles.dividerLine} />
+          <Text style={styles.dividerHeart}>♡</Text>
+          <View style={styles.dividerLine} />
+        </View>
       </View>
 
       {/* =========================
           CONTENT
-      ========================= */}
+      ========================== */}
 
       <View style={styles.content}>
 
         {/* HELLO CARD */}
         <View style={styles.card}>
-          <View style={styles.pattern}>
-            <Text style={styles.patternText}>✦</Text>
+          <View style={[styles.cardIcon, styles.pinkIcon]}>
+            <Text style={styles.iconText}>♡</Text>
           </View>
 
           <View style={styles.cardContent}>
             <Text style={styles.cardTitle}>
-              Kumusta! 👋
+              Hello! 👋
             </Text>
 
             <Text style={styles.text}>
-              Welcome to my application. This page contains
-              information about the developer and the purpose
-              of PolimerApp.
+              Welcome to my application! This page
+              contains information about the developer
+              and the purpose of KUROMIAPP.
             </Text>
           </View>
         </View>
 
         {/* PROJECT CARD */}
         <View style={styles.card}>
-          <View style={styles.pattern}>
-            <Text style={styles.patternText}>✦</Text>
+          <View style={[styles.cardIcon, styles.purpleIcon]}>
+            <Text style={styles.iconText}>✦</Text>
           </View>
 
           <View style={styles.cardContent}>
             <Text style={styles.cardTitle}>
-              Tungkol sa Proyekto
+              About the Project
             </Text>
 
             <Text style={styles.text}>
-              PolimerApp is a mobile application developed using
-              React Native and Expo. It provides users with a
-              simple interface for exploring different features
-              of the application.
+              KUROMIAPP is a mobile application developed
+              using React Native and Expo. It provides
+              users with a simple, friendly, and enjoyable
+              interface for exploring different features.
             </Text>
           </View>
         </View>
 
         {/* TECHNOLOGY CARD */}
         <View style={styles.card}>
-          <View style={styles.pattern}>
-            <Text style={styles.patternText}>✦</Text>
+          <View style={[styles.cardIcon, styles.pinkIcon]}>
+            <Text style={styles.iconText}>💻</Text>
           </View>
 
           <View style={styles.cardContent}>
             <Text style={styles.cardTitle}>
-              Mga Teknolohiya 💻
+              Technologies
             </Text>
 
             <View style={styles.tagRow}>
@@ -160,13 +177,13 @@ export default function About() {
 
         {/* DEVELOPER CARD */}
         <View style={styles.card}>
-          <View style={styles.pattern}>
-            <Text style={styles.patternText}>✦</Text>
+          <View style={[styles.cardIcon, styles.purpleIcon]}>
+            <Text style={styles.iconText}>👩‍💻</Text>
           </View>
 
           <View style={styles.cardContent}>
             <Text style={styles.cardTitle}>
-              Developer 👨‍💻
+              Developer
             </Text>
 
             <View style={styles.infoRow}>
@@ -175,7 +192,7 @@ export default function About() {
               </Text>
 
               <Text style={styles.infoValue}>
-                Your Name
+                Joan
               </Text>
             </View>
 
@@ -185,16 +202,14 @@ export default function About() {
               </Text>
 
               <Text style={styles.infoValue}>
-                PolimerApp
+                KUROMIAPP
               </Text>
             </View>
 
             <View
               style={[
                 styles.infoRow,
-                {
-                  borderBottomWidth: 0,
-                },
+                { borderBottomWidth: 0 },
               ]}
             >
               <Text style={styles.infoLabel}>
@@ -208,21 +223,18 @@ export default function About() {
           </View>
         </View>
 
-        {/* =========================
-            FOOTER
-        ========================= */}
-
+        {/* FOOTER */}
         <View style={styles.footer}>
-          <Text style={styles.footerSun}>
-            ✦ ☀ ✦
+          <Text style={styles.footerDecor}>
+            ✦ ♡ ✦
           </Text>
 
-          <Text style={styles.footerText}>
-            PolimerApp! 🇵🇭
+          <Text style={styles.footerTitle}>
+            KUROMIAPP
           </Text>
 
-          <Text style={styles.footerSubtext}>
-            Salamat sa pagbisita
+          <Text style={styles.footerSubtitle}>
+            Thank you for visiting ♡
           </Text>
         </View>
 
@@ -233,250 +245,296 @@ export default function About() {
 
 const styles = StyleSheet.create({
 
-  /* =========================
-     MAIN BACKGROUND
-  ========================= */
+  // =========================================
+  // CONTAINER
+  // =========================================
 
   container: {
     flex: 1,
-    backgroundColor: "#E7D1A5",
+    backgroundColor: "#F8F3FC",
   },
 
-  /* =========================
-     WOVEN BAMBOO BACKGROUND
-  ========================= */
+  // =========================================
+  // BACKGROUND
+  // =========================================
 
   backgroundPattern: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    height: 1400,
-    backgroundColor: "#E7D1A5",
+    height: 1500,
     overflow: "hidden",
+    backgroundColor: "#F8F3FC",
   },
 
-  bambooVertical: {
+  pinkCircle: {
     position: "absolute",
-    top: 0,
-    bottom: 0,
-    width: 5,
-    backgroundColor: "rgba(91, 61, 30, 0.12)",
+    width: 260,
+    height: 260,
+    borderRadius: 130,
+    backgroundColor: "#FF72AD",
+    top: -150,
+    right: -100,
   },
 
-  bambooHorizontal: {
+  purpleCircle: {
     position: "absolute",
-    left: 0,
-    right: 0,
-    height: 5,
-    backgroundColor: "rgba(91, 61, 30, 0.12)",
+    width: 280,
+    height: 280,
+    borderRadius: 140,
+    backgroundColor: "#9B59B6",
+    bottom: -80,
+    left: -130,
   },
 
-  diagonalOne: {
+  smallPinkCircle: {
     position: "absolute",
-    width: "160%",
-    height: 5,
-    backgroundColor: "rgba(91, 61, 30, 0.10)",
-    transform: [
-      {
-        rotate: "35deg",
-      },
-    ],
-    top: 180,
-    left: -100,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: "#FFB6D5",
+    top: 430,
+    right: -35,
   },
 
-  diagonalTwo: {
+  decorOne: {
     position: "absolute",
-    width: "160%",
-    height: 5,
-    backgroundColor: "rgba(91, 61, 30, 0.10)",
-    transform: [
-      {
-        rotate: "-35deg",
-      },
-    ],
-    top: 180,
-    left: -100,
+    top: 190,
+    left: 25,
+    color: "#FF5FA2",
+    fontSize: 25,
+    fontWeight: "900",
   },
 
-  diagonalThree: {
+  decorTwo: {
     position: "absolute",
-    width: "160%",
-    height: 5,
-    backgroundColor: "rgba(91, 61, 30, 0.08)",
-    transform: [
-      {
-        rotate: "35deg",
-      },
-    ],
-    top: 650,
-    left: -100,
+    top: 390,
+    right: 28,
+    color: "#9B59B6",
+    fontSize: 30,
   },
 
-  diagonalFour: {
+  decorThree: {
     position: "absolute",
-    width: "160%",
-    height: 5,
-    backgroundColor: "rgba(91, 61, 30, 0.08)",
-    transform: [
-      {
-        rotate: "-35deg",
-      },
-    ],
-    top: 650,
-    left: -100,
+    top: 720,
+    left: 22,
+    color: "#FF72AD",
+    fontSize: 22,
   },
 
-  /* =========================
-     HEADER
-  ========================= */
+  decorFour: {
+    position: "absolute",
+    bottom: 180,
+    right: 30,
+    color: "#9B59B6",
+    fontSize: 28,
+  },
+
+  // =========================================
+  // HEADER
+  // =========================================
 
   header: {
-    backgroundColor: "#57352B",
+    backgroundColor: "#6C2A83",
+
     alignItems: "center",
-    paddingTop: 55,
-    paddingBottom: 38,
-    borderBottomLeftRadius: 38,
-    borderBottomRightRadius: 38,
 
-    elevation: 6,
+    paddingTop: 58,
+    paddingBottom: 35,
+    paddingHorizontal: 20,
 
-    shadowColor: "#3C241E",
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+
+    borderBottomWidth: 4,
+    borderBottomColor: "#FF5FA2",
+
+    elevation: 10,
+
+    shadowColor: "#4B1760",
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+  },
+
+  headerSmall: {
+    color: "#FF9BC5",
+    fontSize: 12,
+    fontWeight: "900",
+    letterSpacing: 4,
+    marginBottom: 15,
+  },
+
+  // =========================================
+  // PROFILE IMAGE
+  // =========================================
+
+  avatarWrapper: {
+    width: 140,
+    height: 140,
+
+    borderRadius: 70,
+
+    backgroundColor: "#FFFFFF",
+
+    padding: 5,
+
+    borderWidth: 4,
+    borderColor: "#FF72AD",
+
+    marginBottom: 8,
+
+    elevation: 8,
+
+    shadowColor: "#000",
     shadowOpacity: 0.25,
-    shadowRadius: 8,
+    shadowRadius: 10,
+
     shadowOffset: {
       width: 0,
       height: 5,
     },
-  },
 
-  kasaysayan: {
-    color: "#F3C66B",
-    fontSize: 13,
-    fontWeight: "800",
-    letterSpacing: 3,
-    marginBottom: 15,
-  },
-
-  /* =========================
-     SUN
-  ========================= */
-
-  sun: {
-    position: "absolute",
-    right: 25,
-    top: 45,
-    width: 62,
-    height: 62,
-    borderRadius: 31,
-    backgroundColor: "#C9362B",
     justifyContent: "center",
     alignItems: "center",
+
+    overflow: "hidden",
   },
 
-  sunText: {
-    color: "#FFD56A",
-    fontSize: 32,
+  imageSide: {
+    width: "100%",
+    height: "100%",
+
+    borderRadius: 65,
+
+    backgroundColor: "#FBE8F1",
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    overflow: "hidden",
   },
 
-  /* =========================
-     PROFILE
-  ========================= */
+  avatar: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 65,
+  },
 
-  avatarWrapper: {
-    width: 125,
-    height: 125,
-    borderRadius: 63,
-    backgroundColor: "#F3C66B",
-    padding: 5,
+  // =========================================
+  // IMAGE NAME
+  // =========================================
+
+  imageName: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "900",
+    letterSpacing: 3,
+    marginTop: 2,
+  },
+
+  flipHint: {
+    color: "#EBD9F2",
+    fontSize: 10,
+    marginTop: 3,
+    marginBottom: 12,
+  },
+
+  title: {
+    color: "#FFFFFF",
+    fontSize: 29,
+    fontWeight: "900",
+    letterSpacing: 2,
+  },
+
+  subtitle: {
+    color: "#EBD9F2",
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 4,
+    marginTop: 5,
+  },
+
+  divider: {
+    width: "65%",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 17,
+  },
+
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#DDB8E9",
+  },
+
+  dividerHeart: {
+    color: "#FF72AD",
+    fontSize: 18,
+    marginHorizontal: 10,
+  },
+
+  // =========================================
+  // CONTENT
+  // =========================================
+
+  content: {
+    padding: 18,
+    paddingTop: 23,
+  },
+
+  // =========================================
+  // CARDS
+  // =========================================
+
+  card: {
+    flexDirection: "row",
+
+    backgroundColor: "#FFFFFF",
+
+    borderRadius: 22,
+
     marginBottom: 15,
 
-    elevation: 6,
+    overflow: "hidden",
 
-    shadowColor: "#000",
-    shadowOpacity: 0.25,
+    borderWidth: 1.5,
+    borderColor: "#E5D5EC",
+
+    elevation: 5,
+
+    shadowColor: "#6C2A83",
+    shadowOpacity: 0.10,
     shadowRadius: 8,
+
     shadowOffset: {
       width: 0,
       height: 4,
     },
   },
 
-  avatar: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 60,
-  },
+  cardIcon: {
+    width: 55,
 
-  title: {
-    color: "#FFF8E8",
-    fontSize: 27,
-    fontWeight: "900",
-    letterSpacing: 3,
-  },
-
-  subtitle: {
-    color: "#E6D4B4",
-    fontSize: 12,
-    letterSpacing: 4,
-    marginTop: 6,
-  },
-
-  divider: {
-    width: 65,
-    height: 3,
-    backgroundColor: "#C9362B",
-    marginTop: 18,
-  },
-
-  /* =========================
-     CONTENT
-  ========================= */
-
-  content: {
-    padding: 18,
-    paddingTop: 25,
-  },
-
-  /* =========================
-     CARDS
-  ========================= */
-
-  card: {
-    flexDirection: "row",
-    backgroundColor: "rgba(255, 253, 247, 0.97)",
-
-    borderRadius: 10,
-
-    marginBottom: 17,
-
-    overflow: "hidden",
-
-    borderWidth: 1,
-    borderColor: "#CDB88F",
-
-    elevation: 4,
-
-    shadowColor: "#54372B",
-    shadowOpacity: 0.15,
-    shadowRadius: 6,
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-  },
-
-  pattern: {
-    width: 40,
-    backgroundColor: "#16734F",
     justifyContent: "center",
     alignItems: "center",
   },
 
-  patternText: {
-    color: "#F3C66B",
-    fontSize: 21,
+  pinkIcon: {
+    backgroundColor: "#FFE0ED",
+  },
+
+  purpleIcon: {
+    backgroundColor: "#EBD8F5",
+  },
+
+  iconText: {
+    fontSize: 23,
   },
 
   cardContent: {
@@ -486,20 +544,20 @@ const styles = StyleSheet.create({
 
   cardTitle: {
     fontSize: 18,
-    fontWeight: "800",
-    color: "#4D2E25",
-    marginBottom: 10,
+    fontWeight: "900",
+    color: "#57206D",
+    marginBottom: 9,
   },
 
   text: {
-    fontSize: 14.5,
-    color: "#675B51",
-    lineHeight: 23,
+    fontSize: 14,
+    color: "#75677E",
+    lineHeight: 22,
   },
 
-  /* =========================
-     TECHNOLOGY TAGS
-  ========================= */
+  // =========================================
+  // TECHNOLOGIES
+  // =========================================
 
   tagRow: {
     flexDirection: "row",
@@ -507,9 +565,10 @@ const styles = StyleSheet.create({
   },
 
   tag: {
-    backgroundColor: "#E3EFE6",
+    backgroundColor: "#FBE8F1",
+
     borderWidth: 1,
-    borderColor: "#A5C5AF",
+    borderColor: "#F3BDD5",
 
     paddingVertical: 7,
     paddingHorizontal: 11,
@@ -521,14 +580,14 @@ const styles = StyleSheet.create({
   },
 
   tagText: {
-    color: "#276044",
-    fontSize: 12.5,
-    fontWeight: "700",
+    color: "#7A3C70",
+    fontSize: 12,
+    fontWeight: "800",
   },
 
-  /* =========================
-     INFORMATION
-  ========================= */
+  // =========================================
+  // INFORMATION
+  // =========================================
 
   infoRow: {
     flexDirection: "row",
@@ -537,49 +596,49 @@ const styles = StyleSheet.create({
     paddingVertical: 11,
 
     borderBottomWidth: 1,
-    borderBottomColor: "#E4D8C3",
+    borderBottomColor: "#EFE4F3",
   },
 
   infoLabel: {
-    color: "#9A8978",
+    color: "#A18BAA",
     fontSize: 13,
   },
 
   infoValue: {
-    color: "#4D2E25",
+    color: "#57206D",
     fontSize: 13,
-    fontWeight: "700",
+    fontWeight: "800",
   },
 
-  /* =========================
-     FOOTER
-  ========================= */
+  // =========================================
+  // FOOTER
+  // =========================================
 
   footer: {
     alignItems: "center",
-    paddingTop: 10,
-    paddingBottom: 45,
+
+    paddingTop: 12,
+    paddingBottom: 50,
   },
 
-  footerSun: {
-    color: "#C9362B",
+  footerDecor: {
+    color: "#FF5FA2",
     fontSize: 18,
     letterSpacing: 5,
     marginBottom: 5,
   },
 
-  footerText: {
+  footerTitle: {
+    color: "#6C2A83",
     fontSize: 23,
     fontWeight: "900",
-    color: "#C9362B",
-    letterSpacing: 2,
+    letterSpacing: 3,
   },
 
-  footerSubtext: {
-    marginTop: 5,
-    color: "#806F60",
+  footerSubtitle: {
+    color: "#9B59B6",
     fontSize: 12,
-    letterSpacing: 1,
+    marginTop: 5,
   },
 
 });

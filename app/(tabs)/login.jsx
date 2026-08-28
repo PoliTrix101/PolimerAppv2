@@ -1,7 +1,9 @@
+
 import { router } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
+  Image,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -13,7 +15,7 @@ import {
 
 import { useAuth } from "../../context/AuthContext";
 
-const API_URL = "http://192.168.1.124:3000";
+const API_URL = "http://192.168.1.104:3000";
 
 export default function Login() {
   const { setIsLogin } = useAuth();
@@ -61,10 +63,7 @@ export default function Login() {
 
       if (response.ok && data.success) {
         setIsLogin(true);
-
-        // GO DIRECTLY TO HOME
         router.replace("/(tabs)/home");
-
         return;
       }
 
@@ -85,39 +84,67 @@ export default function Login() {
   return (
     <View style={styles.container}>
 
-      {/* BAMBOO / CROSSLINE BACKGROUND */}
+      {/* ==========================================
+          BACKGROUND DECORATIONS
+      ========================================== */}
 
-      <View style={styles.pattern}>
-        {Array.from({ length: 12 }).map((_, index) => (
-          <View
-            key={`v-${index}`}
-            style={[
-              styles.verticalLine,
-              { left: `${index * 10}%` },
-            ]}
-          />
-        ))}
+      <View style={styles.backgroundDecor}>
 
-        {Array.from({ length: 15 }).map((_, index) => (
-          <View
-            key={`h-${index}`}
-            style={[
-              styles.horizontalLine,
-              { top: `${index * 8}%` },
-            ]}
-          />
-        ))}
+        <Text style={[styles.decor, styles.star1]}>
+          ✦
+        </Text>
+
+        <Text style={[styles.decor, styles.star2]}>
+          ★
+        </Text>
+
+        <Text style={[styles.decor, styles.star3]}>
+          ✧
+        </Text>
+
+        <Text style={[styles.decor, styles.heart1]}>
+          ♡
+        </Text>
+
+        <Text style={[styles.decor, styles.heart2]}>
+          ♡
+        </Text>
+
+        <Text style={[styles.decor, styles.cross1]}>
+          ×
+        </Text>
+
+        <Text style={[styles.decor, styles.cross2]}>
+          +
+        </Text>
+
+        <View style={styles.pinkCircle1} />
+        <View style={styles.pinkCircle2} />
+
       </View>
 
-      {/* HEADER */}
+      {/* ==========================================
+          HEADER
+      ========================================== */}
 
       <View style={styles.header}>
-        <View style={styles.logoCircle}>
-          <Text style={styles.logoText}>P</Text>
+
+        <View style={styles.logoOuter}>
+
+          <View style={styles.logoCircle}>
+
+            <Image
+              source={require("../../assets/images/kuromi.jpg")}
+              style={styles.kuromiImage}
+              resizeMode="contain"
+            />
+
+          </View>
+
         </View>
 
         <Text style={styles.smallTitle}>
-          POLIMERAPP
+          KUROMIAPP
         </Text>
 
         <Text style={styles.title}>
@@ -125,11 +152,14 @@ export default function Login() {
         </Text>
 
         <Text style={styles.subtitle}>
-          Login to continue
+          Ready to get mischievous?
         </Text>
+
       </View>
 
-      {/* LOGIN CARD */}
+      {/* ==========================================
+          LOGIN FORM
+      ========================================== */}
 
       <KeyboardAvoidingView
         style={styles.wrapper}
@@ -139,31 +169,54 @@ export default function Login() {
             : undefined
         }
       >
+
         <View style={styles.card}>
 
+          {/* CARD HEADER */}
+
           <View style={styles.cardTop}>
-            <Text style={styles.cardIcon}></Text>
+
+            <View style={styles.miniBadge}>
+
+              <Image
+                source={require("../../assets/images/kuromi.jpg")}
+                style={styles.miniKuromi}
+                resizeMode="contain"
+              />
+
+            </View>
 
             <Text style={styles.cardTitle}>
-              Sign In
+              Login
             </Text>
 
             <Text style={styles.cardSubtitle}>
               Enter your account details
             </Text>
+
           </View>
 
-          {/* ERROR */}
+          {/* ==========================================
+              ERROR MESSAGE
+          ========================================== */}
 
           {errorMessage ? (
             <View style={styles.errorBox}>
+
+              <Text style={styles.errorIcon}>
+                !
+              </Text>
+
               <Text style={styles.errorText}>
                 {errorMessage}
               </Text>
+
             </View>
           ) : null}
 
-          {/* USERNAME */}
+          {/* ==========================================
+              USERNAME
+          ========================================== */}
 
           <Text style={styles.label}>
             Username
@@ -172,7 +225,7 @@ export default function Login() {
           <TextInput
             style={styles.input}
             placeholder="Enter your username"
-            placeholderTextColor="#9A9A8A"
+            placeholderTextColor="#9B8FA8"
             value={username}
             onChangeText={setUsername}
             autoCapitalize="none"
@@ -180,7 +233,9 @@ export default function Login() {
             editable={!loading}
           />
 
-          {/* PASSWORD */}
+          {/* ==========================================
+              PASSWORD
+          ========================================== */}
 
           <Text style={styles.label}>
             Password
@@ -189,7 +244,7 @@ export default function Login() {
           <TextInput
             style={styles.input}
             placeholder="Enter your password"
-            placeholderTextColor="#9A9A8A"
+            placeholderTextColor="#9B8FA8"
             value={password}
             onChangeText={setPassword}
             secureTextEntry
@@ -198,7 +253,9 @@ export default function Login() {
             editable={!loading}
           />
 
-          {/* LOGIN */}
+          {/* ==========================================
+              LOGIN BUTTON
+          ========================================== */}
 
           <TouchableOpacity
             style={[
@@ -209,24 +266,31 @@ export default function Login() {
             disabled={loading}
             activeOpacity={0.85}
           >
+
             {loading ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color="#FFFFFF" />
             ) : (
               <>
-                <Text style={styles.loginIcon}>
-                  → 
-                </Text>
+               
 
                 <Text style={styles.loginText}>
-                  Login
+                  LOGIN
+                </Text>
+
+                <Text style={styles.loginArrow}>
+                  →
                 </Text>
               </>
             )}
+
           </TouchableOpacity>
 
-          {/* DIVIDER */}
+          {/* ==========================================
+              DIVIDER
+          ========================================== */}
 
           <View style={styles.dividerContainer}>
+
             <View style={styles.divider} />
 
             <Text style={styles.orText}>
@@ -234,9 +298,12 @@ export default function Login() {
             </Text>
 
             <View style={styles.divider} />
+
           </View>
 
-          {/* SIGN UP */}
+          {/* ==========================================
+              SIGN UP
+          ========================================== */}
 
           <TouchableOpacity
             style={styles.signupButton}
@@ -244,297 +311,573 @@ export default function Login() {
             disabled={loading}
             activeOpacity={0.85}
           >
+
             <Text style={styles.signupText}>
-              Create an Account
+              CREATE AN ACCOUNT
             </Text>
+
           </TouchableOpacity>
 
+          {/* ==========================================
+              FOOTER
+          ========================================== */}
+
           <Text style={styles.bottomText}>
-            New to PolimerApp? Create your account above.
+            New to KUROMIApp?
+          </Text>
+
+          <Text style={styles.bottomSubText}>
+            Join us and make something cute & chaotic ♡
           </Text>
 
         </View>
+
       </KeyboardAvoidingView>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+
+  // ==========================================
+  // MAIN
+  // ==========================================
+
   container: {
     flex: 1,
-    backgroundColor: "#F4F1E6",
+    backgroundColor: "#160D1F",
   },
 
-  // =========================
-  // BAMBOO PATTERN
-  // =========================
+  // ==========================================
+  // BACKGROUND
+  // ==========================================
 
-  pattern: {
+  backgroundDecor: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    opacity: 0.16,
+    overflow: "hidden",
   },
 
-  verticalLine: {
+  decor: {
     position: "absolute",
-    top: -20,
-    bottom: -20,
-    width: 5,
-    backgroundColor: "#6B7A3C",
-    transform: [
-      {
-        rotate: "8deg",
-      },
-    ],
+    color: "#FF5FA2",
+    fontWeight: "900",
   },
 
-  horizontalLine: {
+  star1: {
+    top: 100,
+    left: 25,
+    fontSize: 28,
+  },
+
+  star2: {
+    top: 220,
+    right: 25,
+    fontSize: 20,
+    color: "#D9A7FF",
+  },
+
+  star3: {
+    bottom: 120,
+    left: 35,
+    fontSize: 25,
+    color: "#FFFFFF",
+  },
+
+  heart1: {
+    top: 170,
+    right: 40,
+    fontSize: 26,
+  },
+
+  heart2: {
+    bottom: 190,
+    right: 30,
+    fontSize: 30,
+    color: "#D9A7FF",
+  },
+
+  cross1: {
+    top: 310,
+    left: 35,
+    fontSize: 30,
+    color: "#FFFFFF",
+  },
+
+  cross2: {
+    bottom: 250,
+    right: 50,
+    fontSize: 24,
+    color: "#FF5FA2",
+  },
+
+  pinkCircle1: {
     position: "absolute",
-    left: -20,
-    right: -20,
-    height: 4,
-    backgroundColor: "#8A6A3D",
-    transform: [
-      {
-        rotate: "-3deg",
-      },
-    ],
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    backgroundColor: "#6E275A",
+    opacity: 0.35,
+    top: -70,
+    right: -60,
   },
 
-  // =========================
+  pinkCircle2: {
+    position: "absolute",
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+    backgroundColor: "#8E3E86",
+    opacity: 0.25,
+    bottom: -50,
+    left: -60,
+  },
+
+  // ==========================================
   // HEADER
-  // =========================
+  // ==========================================
 
   header: {
-    backgroundColor: "#355E3B",
+    backgroundColor: "#251432",
+
     alignItems: "center",
-    paddingTop: 65,
-    paddingBottom: 55,
-    borderBottomLeftRadius: 45,
-    borderBottomRightRadius: 45,
-    elevation: 8,
-    shadowColor: "#263B27",
-    shadowOpacity: 0.25,
-    shadowRadius: 10,
+
+    paddingTop: 55,
+    paddingBottom: 58,
+
+    borderBottomLeftRadius: 42,
+    borderBottomRightRadius: 42,
+
+    borderBottomWidth: 2,
+    borderBottomColor: "#FF5FA2",
+
+    elevation: 10,
+
+    shadowColor: "#FF5FA2",
+    shadowOpacity: 0.2,
+    shadowRadius: 15,
+
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 7,
+    },
+  },
+
+  // ==========================================
+  // KUROMI IMAGE
+  // ==========================================
+
+  logoOuter: {
+    width: 92,
+    height: 92,
+
+    borderRadius: 46,
+
+    backgroundColor: "#100912",
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderWidth: 3,
+    borderColor: "#FF5FA2",
+
+    marginBottom: 12,
+
+    elevation: 6,
+
+    shadowColor: "#FF5FA2",
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+
+    shadowOffset: {
+      width: 0,
+      height: 4,
     },
   },
 
   logoCircle: {
-    width: 72,
-    height: 72,
-    borderRadius: 36,
-    backgroundColor: "#E7D7A7",
+    width: 80,
+    height: 80,
+
+    borderRadius: 40,
+
+    backgroundColor: "#351B43",
+
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 12,
-    borderWidth: 4,
-    borderColor: "#F5E9C8",
+
+    overflow: "hidden",
   },
 
-  logoText: {
-    fontSize: 38,
-    fontWeight: "900",
-    color: "#355E3B",
+  kuromiImage: {
+    width: 72,
+    height: 72,
   },
+
+  // ==========================================
+  // HEADER TEXT
+  // ==========================================
 
   smallTitle: {
-    color: "#E7D7A7",
+    color: "#FF8FBE",
+
     fontSize: 11,
-    fontWeight: "800",
-    letterSpacing: 4,
+
+    fontWeight: "900",
+
+    letterSpacing: 5,
+
     marginBottom: 5,
   },
 
   title: {
-    color: "#fff",
-    fontSize: 29,
+    color: "#FFFFFF",
+
+    fontSize: 30,
+
     fontWeight: "900",
+
+    letterSpacing: 0.5,
   },
 
   subtitle: {
-    color: "rgba(255,255,255,0.75)",
+    color: "#C7B8CE",
+
     fontSize: 14,
-    marginTop: 6,
+
+    marginTop: 7,
   },
 
-  // =========================
+  // ==========================================
   // FORM
-  // =========================
+  // ==========================================
 
   wrapper: {
     flex: 1,
+
     marginTop: -30,
+
     paddingHorizontal: 20,
   },
 
   card: {
     width: "100%",
+
     maxWidth: 430,
+
     alignSelf: "center",
-    backgroundColor: "#FFFDF7",
-    borderRadius: 24,
+
+    backgroundColor: "#24152F",
+
+    borderRadius: 26,
+
     padding: 24,
-    elevation: 8,
-    shadowColor: "#355E3B",
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
+
+    borderWidth: 1.5,
+
+    borderColor: "#593A68",
+
+    elevation: 12,
+
+    shadowColor: "#000",
+
+    shadowOpacity: 0.45,
+
+    shadowRadius: 15,
+
     shadowOffset: {
       width: 0,
-      height: 6,
+      height: 8,
     },
   },
 
+  // ==========================================
+  // CARD HEADER
+  // ==========================================
+
   cardTop: {
     alignItems: "center",
+
     marginBottom: 20,
   },
 
-  cardIcon: {
-    fontSize: 30,
-    marginBottom: 5,
+  miniBadge: {
+    width: 52,
+    height: 52,
+
+    borderRadius: 26,
+
+    backgroundColor: "#381D48",
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderWidth: 1,
+
+    borderColor: "#FF5FA2",
+
+    marginBottom: 8,
+
+    overflow: "hidden",
+  },
+
+  miniKuromi: {
+    width: 45,
+    height: 45,
   },
 
   cardTitle: {
-    color: "#35452F",
-    fontSize: 23,
+    color: "#FFFFFF",
+
+    fontSize: 24,
+
     fontWeight: "900",
   },
 
   cardSubtitle: {
-    color: "#777968",
+    color: "#AFA0B7",
+
     fontSize: 13,
+
     marginTop: 4,
   },
 
-  // =========================
+  // ==========================================
   // ERROR
-  // =========================
+  // ==========================================
 
   errorBox: {
-    backgroundColor: "#F9E1D9",
+    backgroundColor: "#3B1829",
+
     borderWidth: 1,
-    borderColor: "#C96B52",
-    borderRadius: 12,
+
+    borderColor: "#FF5C8D",
+
+    borderRadius: 13,
+
     padding: 11,
+
     marginBottom: 15,
+
+    flexDirection: "row",
+
+    alignItems: "center",
+  },
+
+  errorIcon: {
+    width: 22,
+    height: 22,
+
+    borderRadius: 11,
+
+    backgroundColor: "#FF5C8D",
+
+    color: "#FFFFFF",
+
+    textAlign: "center",
+
+    lineHeight: 22,
+
+    fontWeight: "900",
+
+    marginRight: 8,
   },
 
   errorText: {
-    color: "#9B3F2D",
-    textAlign: "center",
+    flex: 1,
+
+    color: "#FFB2C9",
+
     fontSize: 13,
+
     fontWeight: "600",
   },
 
-  // =========================
+  // ==========================================
   // INPUTS
-  // =========================
+  // ==========================================
 
   label: {
-    color: "#4B513D",
+    color: "#E7D9ED",
+
     fontSize: 14,
-    fontWeight: "700",
+
+    fontWeight: "800",
+
     marginBottom: 7,
   },
 
   input: {
-    height: 52,
+    height: 53,
+
     borderWidth: 1.5,
-    borderColor: "#D5CDAF",
-    borderRadius: 13,
+
+    borderColor: "#634771",
+
+    borderRadius: 14,
+
     paddingHorizontal: 16,
+
     marginBottom: 16,
-    backgroundColor: "#F8F5E9",
-    color: "#30352B",
+
+    backgroundColor: "#180F21",
+
+    color: "#FFFFFF",
+
     fontSize: 16,
   },
 
-  // =========================
+  // ==========================================
   // LOGIN BUTTON
-  // =========================
+  // ==========================================
 
   loginButton: {
-    height: 53,
-    borderRadius: 14,
-    backgroundColor: "#355E3B",
+    height: 54,
+
+    borderRadius: 15,
+
+    backgroundColor: "#FF5FA2",
+
     justifyContent: "center",
+
     alignItems: "center",
+
     flexDirection: "row",
+
     marginTop: 3,
-    elevation: 4,
+
+    elevation: 5,
+
+    shadowColor: "#FF5FA2",
+
+    shadowOpacity: 0.35,
+
+    shadowRadius: 8,
+
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
   },
 
-  loginIcon: {
-    color: "#E7D7A7",
-    fontSize: 23,
-    fontWeight: "900",
+  buttonKuromi: {
+    width: 30,
+    height: 30,
+
     marginRight: 8,
   },
 
   loginText: {
-    color: "#fff",
-    fontSize: 17,
-    fontWeight: "800",
+    color: "#251432",
+
+    fontSize: 16,
+
+    fontWeight: "900",
+
+    letterSpacing: 1.5,
+  },
+
+  loginArrow: {
+    color: "#251432",
+
+    fontSize: 22,
+
+    fontWeight: "900",
+
+    marginLeft: 9,
   },
 
   disabled: {
-    opacity: 0.6,
+    opacity: 0.55,
   },
 
-  // =========================
+  // ==========================================
   // DIVIDER
-  // =========================
+  // ==========================================
 
   dividerContainer: {
     flexDirection: "row",
+
     alignItems: "center",
+
     marginVertical: 22,
   },
 
   divider: {
     flex: 1,
+
     height: 1,
-    backgroundColor: "#DCD6C2",
+
+    backgroundColor: "#4A3555",
   },
 
   orText: {
     marginHorizontal: 12,
-    color: "#999A8A",
-    fontSize: 12,
-    fontWeight: "700",
+
+    color: "#8F7E98",
+
+    fontSize: 11,
+
+    fontWeight: "900",
   },
 
-  // =========================
+  // ==========================================
   // SIGN UP
-  // =========================
+  // ==========================================
 
   signupButton: {
     height: 52,
+
     borderRadius: 14,
-    borderWidth: 2,
-    borderColor: "#355E3B",
+
+    borderWidth: 1.5,
+
+    borderColor: "#FF5FA2",
+
     justifyContent: "center",
+
     alignItems: "center",
-    backgroundColor: "#FFFDF7",
+
+    backgroundColor: "#2D1939",
   },
 
   signupText: {
-    color: "#355E3B",
-    fontSize: 16,
-    fontWeight: "800",
+    color: "#FF79AE",
+
+    fontSize: 14,
+
+    fontWeight: "900",
+
+    letterSpacing: 1,
   },
 
+  // ==========================================
+  // FOOTER
+  // ==========================================
+
   bottomText: {
-    color: "#8A8B7B",
+    color: "#B9A8C1",
+
     fontSize: 12,
+
     textAlign: "center",
+
     marginTop: 13,
-    lineHeight: 18,
   },
+
+  bottomSubText: {
+    color: "#75647E",
+
+    fontSize: 11,
+
+    textAlign: "center",
+
+    marginTop: 3,
+  },
+
 });
+
