@@ -29,17 +29,17 @@ export default function Gallery() {
   const [loading, setLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
-  // ===============================
+  // ======================================================
   // DIRECTORY
-  // ===============================
+  // ======================================================
 
   const getGalleryDirectory = () => {
     return FileSystem.documentDirectory + "gallery/";
   };
 
-  // ===============================
+  // ======================================================
   // LOAD PHOTOS
-  // ===============================
+  // ======================================================
 
   useEffect(() => {
     loadPhotos();
@@ -86,9 +86,9 @@ export default function Gallery() {
     }
   };
 
-  // ===============================
+  // ======================================================
   // CAMERA
-  // ===============================
+  // ======================================================
 
   const openCamera = async () => {
     try {
@@ -128,9 +128,9 @@ export default function Gallery() {
     );
   };
 
-  // ===============================
+  // ======================================================
   // TAKE PHOTO
-  // ===============================
+  // ======================================================
 
   const takePicture = async () => {
     try {
@@ -170,7 +170,7 @@ export default function Gallery() {
       setPhotos((current) => [destination, ...current]);
 
       Alert.alert(
-        "Photo Saved! 🐾",
+        "Photo Saved",
         "Your photo has been added to your gallery.",
         [
           {
@@ -191,9 +191,9 @@ export default function Gallery() {
     }
   };
 
-  // ===============================
+  // ======================================================
   // CAMERA SCREEN
-  // ===============================
+  // ======================================================
 
   if (cameraOpen) {
     return (
@@ -204,54 +204,73 @@ export default function Gallery() {
           facing={facing}
           onCameraReady={() => setCameraReady(true)}
         >
-          {/* TOP DECORATION */}
-          <View style={styles.cameraTopGlow} />
+          <View style={styles.cameraOverlay} />
 
-          {/* TOP BAR */}
+          {/* TOP CAMERA BAR */}
+
           <View style={styles.cameraTop}>
             <TouchableOpacity
-              style={styles.cameraRoundButton}
+              style={styles.cameraButton}
               onPress={closeCamera}
+              activeOpacity={0.8}
             >
-              <Text style={styles.cameraRoundText}>×</Text>
+              <Text style={styles.cameraButtonText}>×</Text>
             </TouchableOpacity>
 
-            <View style={styles.cameraTitleBox}>
-              <Text style={styles.cameraTitle}>
-                KUROMIAPP
+            <View style={styles.cameraTitle}>
+              <Text style={styles.cameraTitleSmall}>
+                WAVEAPP
               </Text>
 
-              <Text style={styles.cameraSubtitle}>
-                PET CAMERA ♡
+              <Text style={styles.cameraTitleMain}>
+                Capture the moment
               </Text>
             </View>
 
             <TouchableOpacity
-              style={styles.cameraRoundButton}
+              style={styles.cameraButton}
               onPress={switchCamera}
+              activeOpacity={0.8}
             >
-              <Text style={styles.cameraRoundText}>↻</Text>
+              <Text style={styles.cameraButtonText}>↻</Text>
             </TouchableOpacity>
           </View>
 
-          {/* CAMERA LOADING */}
+          {/* CAMERA GUIDE */}
+
+          <View style={styles.cameraGuide}>
+            <View style={styles.guideCornerTopLeft} />
+            <View style={styles.guideCornerTopRight} />
+            <View style={styles.guideCornerBottomLeft} />
+            <View style={styles.guideCornerBottomRight} />
+          </View>
+
+          {/* LOADING */}
+
           {!cameraReady && (
             <View style={styles.cameraLoading}>
-              <ActivityIndicator
-                size="large"
-                color="#FF5FA2"
-              />
+              <View style={styles.loadingCircle}>
+                <ActivityIndicator
+                  size="large"
+                  color="#FFFFFF"
+                />
+              </View>
+
+              <Text style={styles.cameraLoadingTitle}>
+                Preparing camera
+              </Text>
 
               <Text style={styles.cameraLoadingText}>
-                Getting camera ready...
+                Almost ready
               </Text>
             </View>
           )}
 
-          {/* CAMERA BOTTOM */}
+          {/* BOTTOM */}
+
           <View style={styles.cameraBottom}>
             <Text style={styles.cameraHint}>
-              🐾 Capture your favorite moment ♡
+              Capture your next adventure
             </Text>
 
             <TouchableOpacity
@@ -262,17 +281,16 @@ export default function Gallery() {
               ]}
               onPress={takePicture}
               disabled={!cameraReady || takingPicture}
+              activeOpacity={0.9}
             >
-              {takingPicture ? (
-                <ActivityIndicator
-                  size="large"
-                  color="#8E44AD"
-                />
-              ) : (
-                <View style={styles.captureInner}>
-                  <Text style={styles.captureIcon}>♡</Text>
-                </View>
-              )}
+              <View style={styles.captureInner}>
+                {takingPicture && (
+                  <ActivityIndicator
+                    size="small"
+                    color="#075985"
+                  />
+                )}
+              </View>
             </TouchableOpacity>
           </View>
         </CameraView>
@@ -280,137 +298,143 @@ export default function Gallery() {
     );
   }
 
-  // ===============================
-  // GALLERY SCREEN
-  // ===============================
+  // ======================================================
+  // GALLERY
+  // ======================================================
 
   return (
     <View style={styles.container}>
+      {/* ==================================================
+          HERO HEADER
+      ================================================== */}
 
-      {/* ===============================
-          DECORATIVE BACKGROUND
-      =============================== */}
+      <View style={styles.hero}>
+        <View style={styles.heroContent}>
+          <Text style={styles.heroSmall}>
+            WAVEAPP / MEMORIES
+          </Text>
 
-      <View style={styles.backgroundDecor}>
-        <View style={styles.purpleBlob} />
-        <View style={styles.pinkBlob} />
+          <Text style={styles.heroTitle}>
+            Your Surf
+          </Text>
 
-        <Text style={styles.decorHeart1}>♡</Text>
-        <Text style={styles.decorHeart2}>♡</Text>
-        <Text style={styles.decorStar1}>✦</Text>
-        <Text style={styles.decorStar2}>✧</Text>
-        <Text style={styles.decorPaw1}>🐾</Text>
-        <Text style={styles.decorPaw2}>🐾</Text>
+          <Text style={styles.heroTitleSecond}>
+            Stories
+          </Text>
+
+          <Text style={styles.heroDescription}>
+            Keep your favorite moments from every
+            adventure in one place.
+          </Text>
+        </View>
+
+        {/* Decorative sun */}
+
+        <View style={styles.sun}>
+          <View style={styles.sunInner} />
+        </View>
+
+        {/* Decorative wave */}
+
+        <View style={styles.heroWaveOne} />
+        <View style={styles.heroWaveTwo} />
       </View>
 
-      {/* ===============================
-          HEADER
-      =============================== */}
-
-      <View style={styles.header}>
-
-        <View>
-          <Text style={styles.smallTitle}>
-            ♡ KUROMIAPP ♡
-          </Text>
-
-          <Text style={styles.title}>
-            My Gallery
-          </Text>
-
-          <Text style={styles.subtitle}>
-            Little memories, big smiles 🐾
-          </Text>
-        </View>
-
-        <View style={styles.photoCount}>
-          <Text style={styles.photoCountNumber}>
-            {photos.length}
-          </Text>
-
-          <Text style={styles.photoCountText}>
-            PHOTOS
-          </Text>
-        </View>
-
-      </View>
-
-      {/* ===============================
-          WELCOME BANNER
-      =============================== */}
-
-      <View style={styles.petBanner}>
-
-        <View style={styles.petCircle}>
-          <Text style={styles.petEmoji}>
-            🐾
-          </Text>
-        </View>
-
-        <View style={styles.petBannerText}>
-          <Text style={styles.petBannerTitle}>
-            Happy Memories!
-          </Text>
-
-          <Text style={styles.petBannerSubtitle}>
-            Keep your cutest moments safe ♡
-          </Text>
-        </View>
-
-        <Text style={styles.bannerHeart}>
-          ♥
-        </Text>
-
-      </View>
-
-      {/* ===============================
+      {/* ==================================================
           CONTENT
-      =============================== */}
+      ================================================== */}
 
       <View style={styles.content}>
+        {/* SECTION HEADER */}
+
+        <View style={styles.sectionHeader}>
+          <View>
+            <Text style={styles.sectionLabel}>
+              COLLECTION
+            </Text>
+
+            <Text style={styles.sectionTitle}>
+              Memories
+            </Text>
+          </View>
+
+          <View style={styles.photoCount}>
+            <Text style={styles.photoCountNumber}>
+              {photos.length}
+            </Text>
+
+            <Text style={styles.photoCountLabel}>
+              {photos.length === 1 ? "PHOTO" : "PHOTOS"}
+            </Text>
+          </View>
+        </View>
+
+        {/* ==================================================
+            LOADING
+        ================================================== */}
 
         {loading ? (
           <View style={styles.center}>
+            <View style={styles.loadingIcon}>
+              <ActivityIndicator
+                size="large"
+                color="#075985"
+              />
+            </View>
 
-            <ActivityIndicator
-              size="large"
-              color="#A855F7"
-            />
-
-            <Text style={styles.loadingText}>
-              Loading your memories...
+            <Text style={styles.loadingTitle}>
+              Loading memories
             </Text>
 
+            <Text style={styles.loadingText}>
+              Preparing your gallery...
+            </Text>
           </View>
-
         ) : photos.length === 0 ? (
+          /* ==================================================
+             EMPTY STATE
+          ================================================== */
 
           <View style={styles.empty}>
+            <View style={styles.emptyArtwork}>
+              <View style={styles.emptySun} />
+              <View style={styles.emptyWaveOne} />
+              <View style={styles.emptyWaveTwo} />
 
-            <View style={styles.emptyCircle}>
-              <Text style={styles.emptyPaw}>
-                🐾
-              </Text>
+              <View style={styles.emptyBoard}>
+                <View style={styles.boardLine} />
+              </View>
             </View>
 
             <Text style={styles.emptyTitle}>
-              No Memories Yet
+              Your story starts here
             </Text>
 
             <Text style={styles.emptyText}>
-              Your gallery is waiting for some
-              cute memories!
+              Take a photo and create your first
+              surf memory.
             </Text>
 
-            <View style={styles.emptyDecor}>
-              <Text>♡</Text>
-              <Text>✦</Text>
-              <Text>♡</Text>
-            </View>
+            <TouchableOpacity
+              style={styles.emptyButton}
+              activeOpacity={0.9}
+              onPress={openCamera}
+            >
+              <View style={styles.emptyButtonCircle}>
+                <Text style={styles.emptyButtonPlus}>
+                  +
+                </Text>
+              </View>
 
+              <Text style={styles.emptyButtonText}>
+                Take Your First Photo
+              </Text>
+            </TouchableOpacity>
           </View>
-
         ) : (
+          /* ==================================================
+             PHOTO GRID
+          ================================================== */
 
           <FlatList
             data={photos}
@@ -420,99 +444,81 @@ export default function Gallery() {
             contentContainerStyle={styles.gallery}
             columnWrapperStyle={styles.row}
             renderItem={({ item, index }) => (
-
               <TouchableOpacity
-                style={styles.photoCard}
-                activeOpacity={0.9}
+                style={[
+                  styles.photoCard,
+                  index % 3 === 0
+                    ? styles.photoCardLarge
+                    : styles.photoCardNormal,
+                ]}
+                activeOpacity={0.92}
                 onPress={() => setSelectedPhoto(item)}
               >
-
                 <Image
                   source={{ uri: item }}
                   style={styles.photo}
                   resizeMode="cover"
                 />
 
-                <View style={styles.photoFrame} />
-
-                <View style={styles.photoBadge}>
-                  <Text style={styles.photoBadgeText}>
-                    {index + 1}
-                  </Text>
+                <View style={styles.photoOverlay}>
+                  <View style={styles.photoNumber}>
+                    <Text style={styles.photoNumberText}>
+                      {String(index + 1).padStart(2, "0")}
+                    </Text>
+                  </View>
                 </View>
-
-                <View style={styles.heartBadge}>
-                  <Text style={styles.heartBadgeText}>
-                    ♥
-                  </Text>
-                </View>
-
               </TouchableOpacity>
-
             )}
           />
-
         )}
-
       </View>
 
-      {/* ===============================
+      {/* ==================================================
           FLOATING CAMERA BUTTON
-      =============================== */}
+      ================================================== */}
 
       <TouchableOpacity
         style={styles.floatingCamera}
-        activeOpacity={0.85}
+        activeOpacity={0.9}
         onPress={openCamera}
       >
-
-        <View style={styles.cameraIconCircle}>
-          <Text style={styles.cameraIcon}>
-            📷
-          </Text>
+        <View style={styles.cameraLensOuter}>
+          <View style={styles.cameraLensInner} />
         </View>
 
-        <View>
-          <Text style={styles.cameraButtonTitle}>
-            Open Camera
-          </Text>
-
-          <Text style={styles.cameraButtonSubtitle}>
-            Capture a memory ♡
-          </Text>
-        </View>
-
+        <Text style={styles.floatingCameraText}>
+          CAPTURE
+        </Text>
       </TouchableOpacity>
 
-      {/* ===============================
+      {/* ==================================================
           FULLSCREEN PHOTO
-      =============================== */}
+      ================================================== */}
 
       <Modal
         visible={selectedPhoto !== null}
         transparent
         animationType="fade"
-        onRequestClose={() =>
-          setSelectedPhoto(null)
-        }
+        onRequestClose={() => setSelectedPhoto(null)}
       >
-
         <View style={styles.fullscreen}>
-
           <View style={styles.fullscreenTop}>
-            <Text style={styles.fullscreenTitle}>
-              Your Memory ♡
-            </Text>
+            <View>
+              <Text style={styles.fullscreenSmall}>
+                WAVEAPP
+              </Text>
+
+              <Text style={styles.fullscreenTitle}>
+                Memory
+              </Text>
+            </View>
 
             <TouchableOpacity
               style={styles.closeFullscreen}
-              onPress={() =>
-                setSelectedPhoto(null)
-              }
+              onPress={() => setSelectedPhoto(null)}
+              activeOpacity={0.8}
             >
-              <Text style={styles.closeText}>
-                ×
-              </Text>
+              <Text style={styles.closeText}>×</Text>
             </TouchableOpacity>
           </View>
 
@@ -524,14 +530,13 @@ export default function Gallery() {
             />
           )}
 
-          <Text style={styles.fullscreenBottom}>
-            ♡ precious memory ♡
-          </Text>
-
+          <View style={styles.fullscreenBottom}>
+            <Text style={styles.fullscreenHint}>
+              Your WaveApp memory
+            </Text>
+          </View>
         </View>
-
       </Modal>
-
     </View>
   );
 }
@@ -541,280 +546,197 @@ export default function Gallery() {
 // ======================================================
 
 const styles = StyleSheet.create({
-
-  // ===============================
+  // ====================================================
   // MAIN
-  // ===============================
+  // ====================================================
 
   container: {
     flex: 1,
-    backgroundColor: "#FFF8FC",
+    backgroundColor: "#F1FAFC",
   },
 
-  backgroundDecor: {
-    ...StyleSheet.absoluteFillObject,
+  // ====================================================
+  // HERO
+  // ====================================================
+
+  hero: {
+    height: 255,
+    backgroundColor: "#075985",
     overflow: "hidden",
+    position: "relative",
   },
 
-  purpleBlob: {
-    position: "absolute",
-    width: 240,
-    height: 240,
-    borderRadius: 120,
-    backgroundColor: "#E9D5FF",
-    top: -120,
-    right: -80,
+  heroContent: {
+    paddingTop: 58,
+    paddingHorizontal: 24,
+    zIndex: 5,
   },
 
-  pinkBlob: {
-    position: "absolute",
-    width: 210,
-    height: 210,
-    borderRadius: 105,
-    backgroundColor: "#FFD6E9",
-    bottom: -100,
-    left: -80,
-  },
-
-  decorHeart1: {
-    position: "absolute",
-    top: 120,
-    left: 20,
-    fontSize: 28,
-    color: "#F472B6",
-    fontWeight: "900",
-  },
-
-  decorHeart2: {
-    position: "absolute",
-    top: 200,
-    right: 25,
-    fontSize: 25,
-    color: "#A855F7",
-  },
-
-  decorStar1: {
-    position: "absolute",
-    bottom: 160,
-    left: 25,
-    fontSize: 22,
-    color: "#C084FC",
-  },
-
-  decorStar2: {
-    position: "absolute",
-    bottom: 100,
-    right: 30,
-    fontSize: 25,
-    color: "#F472B6",
-  },
-
-  decorPaw1: {
-    position: "absolute",
-    top: 260,
-    left: 15,
-    fontSize: 20,
-    opacity: 0.3,
-  },
-
-  decorPaw2: {
-    position: "absolute",
-    bottom: 230,
-    right: 15,
-    fontSize: 22,
-    opacity: 0.3,
-  },
-
-  // ===============================
-  // HEADER
-  // ===============================
-
-  header: {
-    paddingTop: 55,
-    paddingHorizontal: 22,
-    paddingBottom: 20,
-
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-
-    backgroundColor: "#FFFFFF",
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
-
-    borderBottomWidth: 3,
-    borderBottomColor: "#F472B6",
-  },
-
-  smallTitle: {
-    fontSize: 11,
-    fontWeight: "900",
+  heroSmall: {
+    color: "#BAE6FD",
+    fontSize: 10,
+    fontWeight: "800",
     letterSpacing: 2,
-    color: "#A855F7",
-    marginBottom: 5,
+    marginBottom: 10,
   },
 
-  title: {
-    fontSize: 31,
-    fontWeight: "900",
-    color: "#5B216B",
-  },
-
-  subtitle: {
-    color: "#9C6FA8",
-    fontSize: 13,
-    marginTop: 5,
-  },
-
-  photoCount: {
-    width: 66,
-    height: 66,
-    borderRadius: 22,
-
-    backgroundColor: "#A855F7",
-
-    justifyContent: "center",
-    alignItems: "center",
-
-    borderWidth: 3,
-    borderColor: "#F9A8D4",
-
-    transform: [{ rotate: "4deg" }],
-  },
-
-  photoCountNumber: {
+  heroTitle: {
     color: "#FFFFFF",
-    fontSize: 22,
-    fontWeight: "900",
+    fontSize: 38,
+    fontWeight: "800",
+    lineHeight: 40,
+    letterSpacing: -1,
   },
 
-  photoCountText: {
-    color: "#FCE7F3",
-    fontSize: 8,
-    fontWeight: "900",
-    marginTop: 2,
+  heroTitleSecond: {
+    color: "#A5F3FC",
+    fontSize: 38,
+    fontWeight: "800",
+    lineHeight: 40,
+    letterSpacing: -1,
   },
 
-  // ===============================
-  // PET BANNER
-  // ===============================
-
-  petBanner: {
-    marginHorizontal: 18,
-    marginTop: 14,
-    marginBottom: 12,
-
-    padding: 14,
-
-    borderRadius: 22,
-
-    backgroundColor: "#F3E8FF",
-
-    borderWidth: 2,
-    borderColor: "#D8B4FE",
-
-    flexDirection: "row",
-    alignItems: "center",
-
-    elevation: 3,
+  heroDescription: {
+    width: "70%",
+    color: "#DFF7FA",
+    fontSize: 13,
+    lineHeight: 19,
+    marginTop: 10,
   },
 
-  petCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-
-    backgroundColor: "#FFFFFF",
-
+  sun: {
+    position: "absolute",
+    right: 28,
+    top: 55,
+    width: 74,
+    height: 74,
+    borderRadius: 37,
+    backgroundColor: "rgba(255,244,214,0.18)",
     justifyContent: "center",
     alignItems: "center",
-
-    borderWidth: 2,
-    borderColor: "#F9A8D4",
   },
 
-  petEmoji: {
-    fontSize: 25,
+  sunInner: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#FFF4D6",
   },
 
-  petBannerText: {
-    flex: 1,
-    marginLeft: 12,
+  heroWaveOne: {
+    position: "absolute",
+    width: 420,
+    height: 110,
+    borderRadius: 210,
+    backgroundColor: "#0E7490",
+    bottom: -75,
+    left: -80,
+    transform: [{ rotate: "-5deg" }],
   },
 
-  petBannerTitle: {
-    color: "#7E22CE",
-    fontSize: 16,
-    fontWeight: "900",
+  heroWaveTwo: {
+    position: "absolute",
+    width: 430,
+    height: 90,
+    borderRadius: 220,
+    backgroundColor: "#F1FAFC",
+    bottom: -105,
+    left: -70,
+    transform: [{ rotate: "-4deg" }],
   },
 
-  petBannerSubtitle: {
-    color: "#9C6FA8",
-    fontSize: 11,
-    marginTop: 3,
-  },
-
-  bannerHeart: {
-    color: "#EC4899",
-    fontSize: 22,
-  },
-
-  // ===============================
+  // ====================================================
   // CONTENT
-  // ===============================
+  // ====================================================
 
   content: {
     flex: 1,
-
-    backgroundColor: "#FFFFFF",
-
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-
-    borderTopWidth: 2,
-    borderTopColor: "#F5D0FE",
-
-    paddingTop: 15,
+    marginTop: -1,
   },
 
+  sectionHeader: {
+    paddingHorizontal: 22,
+    paddingTop: 22,
+    paddingBottom: 14,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+  },
+
+  sectionLabel: {
+    color: "#0E7490",
+    fontSize: 9,
+    fontWeight: "800",
+    letterSpacing: 2,
+  },
+
+  sectionTitle: {
+    color: "#0F172A",
+    fontSize: 25,
+    fontWeight: "800",
+    marginTop: 3,
+  },
+
+  photoCount: {
+    minWidth: 58,
+    paddingVertical: 7,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    backgroundColor: "#DFF7FA",
+    alignItems: "center",
+  },
+
+  photoCountNumber: {
+    color: "#075985",
+    fontSize: 17,
+    fontWeight: "800",
+  },
+
+  photoCountLabel: {
+    color: "#0E7490",
+    fontSize: 7,
+    fontWeight: "800",
+    letterSpacing: 1,
+    marginTop: 1,
+  },
+
+  // ====================================================
+  // GALLERY
+  // ====================================================
+
   gallery: {
-    paddingHorizontal: 14,
-    paddingBottom: 110,
+    paddingHorizontal: 16,
+    paddingBottom: 120,
   },
 
   row: {
     justifyContent: "space-between",
   },
 
-  // ===============================
-  // PHOTO CARDS
-  // ===============================
-
   photoCard: {
     width: "48%",
-    height: 190,
-
-    marginBottom: 14,
-
-    borderRadius: 22,
-
+    borderRadius: 20,
     overflow: "hidden",
-
-    backgroundColor: "#F3E8FF",
-
-    borderWidth: 4,
-    borderColor: "#FFFFFF",
-
-    elevation: 6,
-
-    shadowColor: "#A855F7",
-    shadowOpacity: 0.18,
+    backgroundColor: "#FFFFFF",
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: "#D7EEF3",
+    shadowColor: "#075985",
+    shadowOpacity: 0.08,
     shadowRadius: 8,
-
     shadowOffset: {
       width: 0,
       height: 4,
     },
+    elevation: 2,
+  },
+
+  photoCardNormal: {
+    height: 185,
+  },
+
+  photoCardLarge: {
+    height: 235,
   },
 
   photo: {
@@ -822,346 +744,423 @@ const styles = StyleSheet.create({
     height: "100%",
   },
 
-  photoFrame: {
+  photoOverlay: {
     position: "absolute",
-    top: 6,
-    left: 6,
-    right: 6,
-    bottom: 6,
-
-    borderWidth: 2,
-    borderColor: "rgba(255,255,255,0.7)",
-
-    borderRadius: 17,
+    left: 10,
+    bottom: 10,
   },
 
-  photoBadge: {
-    position: "absolute",
-    bottom: 9,
-    left: 9,
-
-    width: 28,
-    height: 28,
-
-    borderRadius: 14,
-
-    backgroundColor: "#A855F7",
-
+  photoNumber: {
+    width: 34,
+    height: 27,
+    borderRadius: 9,
+    backgroundColor: "rgba(7,89,133,0.78)",
     justifyContent: "center",
     alignItems: "center",
-
-    borderWidth: 2,
-    borderColor: "#FFFFFF",
   },
 
-  photoBadgeText: {
+  photoNumberText: {
     color: "#FFFFFF",
-    fontSize: 11,
-    fontWeight: "900",
+    fontSize: 10,
+    fontWeight: "800",
   },
 
-  heartBadge: {
-    position: "absolute",
-    top: 9,
-    right: 9,
-
-    width: 29,
-    height: 29,
-
-    borderRadius: 15,
-
-    backgroundColor: "#F472B6",
-
-    justifyContent: "center",
-    alignItems: "center",
-
-    borderWidth: 2,
-    borderColor: "#FFFFFF",
-  },
-
-  heartBadgeText: {
-    color: "#FFFFFF",
-    fontSize: 13,
-  },
-
-  // ===============================
-  // EMPTY
-  // ===============================
-
-  empty: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-
-    paddingHorizontal: 45,
-  },
-
-  emptyCircle: {
-    width: 125,
-    height: 125,
-
-    borderRadius: 63,
-
-    backgroundColor: "#F3E8FF",
-
-    justifyContent: "center",
-    alignItems: "center",
-
-    borderWidth: 4,
-    borderColor: "#F9A8D4",
-
-    marginBottom: 20,
-  },
-
-  emptyPaw: {
-    fontSize: 55,
-  },
-
-  emptyTitle: {
-    color: "#6B247C",
-    fontSize: 23,
-    fontWeight: "900",
-  },
-
-  emptyText: {
-    color: "#9C6FA8",
-    fontSize: 14,
-    textAlign: "center",
-    lineHeight: 21,
-    marginTop: 8,
-  },
-
-  emptyDecor: {
-    flexDirection: "row",
-    gap: 18,
-    marginTop: 15,
-
-    color: "#F472B6",
-    fontSize: 22,
-  },
-
-  // ===============================
+  // ====================================================
   // LOADING
-  // ===============================
+  // ====================================================
 
   center: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 30,
+  },
+
+  loadingIcon: {
+    width: 68,
+    height: 68,
+    borderRadius: 34,
+    backgroundColor: "#DFF7FA",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+
+  loadingTitle: {
+    color: "#0F172A",
+    fontSize: 17,
+    fontWeight: "700",
   },
 
   loadingText: {
-    color: "#9C6FA8",
-    marginTop: 12,
+    color: "#94A3B8",
     fontSize: 13,
+    marginTop: 5,
   },
 
-  // ===============================
+  // ====================================================
+  // EMPTY STATE
+  // ====================================================
+
+  empty: {
+    flex: 1,
+    alignItems: "center",
+    paddingHorizontal: 30,
+    paddingTop: 20,
+  },
+
+  emptyArtwork: {
+    width: 250,
+    height: 170,
+    borderRadius: 28,
+    backgroundColor: "#DFF7FA",
+    overflow: "hidden",
+    position: "relative",
+    marginBottom: 24,
+  },
+
+  emptySun: {
+    position: "absolute",
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: "#FFF4D6",
+    top: 28,
+    right: 35,
+  },
+
+  emptyWaveOne: {
+    position: "absolute",
+    width: 330,
+    height: 90,
+    borderRadius: 170,
+    backgroundColor: "#0E7490",
+    bottom: -38,
+    left: -35,
+  },
+
+  emptyWaveTwo: {
+    position: "absolute",
+    width: 330,
+    height: 70,
+    borderRadius: 170,
+    backgroundColor: "#075985",
+    bottom: -52,
+    left: -30,
+  },
+
+  emptyBoard: {
+    position: "absolute",
+    width: 17,
+    height: 100,
+    borderRadius: 10,
+    backgroundColor: "#FFF4D6",
+    left: 75,
+    bottom: 22,
+    transform: [{ rotate: "28deg" }],
+  },
+
+  boardLine: {
+    position: "absolute",
+    width: 3,
+    height: 70,
+    backgroundColor: "#E6C98A",
+    left: 7,
+    top: 15,
+  },
+
+  emptyTitle: {
+    color: "#0F172A",
+    fontSize: 21,
+    fontWeight: "800",
+    textAlign: "center",
+  },
+
+  emptyText: {
+    color: "#64748B",
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: "center",
+    marginTop: 8,
+    maxWidth: 290,
+  },
+
+  emptyButton: {
+    marginTop: 22,
+    height: 52,
+    paddingHorizontal: 20,
+    borderRadius: 16,
+    backgroundColor: "#075985",
+    flexDirection: "row",
+    alignItems: "center",
+    shadowColor: "#075985",
+    shadowOpacity: 0.22,
+    shadowRadius: 8,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 3,
+  },
+
+  emptyButtonCircle: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: "#A5F3FC",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 10,
+  },
+
+  emptyButtonPlus: {
+    color: "#075985",
+    fontSize: 22,
+    lineHeight: 23,
+    fontWeight: "500",
+  },
+
+  emptyButtonText: {
+    color: "#FFFFFF",
+    fontSize: 13,
+    fontWeight: "800",
+  },
+
+  // ====================================================
   // FLOATING CAMERA
-  // ===============================
+  // ====================================================
 
   floatingCamera: {
     position: "absolute",
-
-    right: 18,
-    bottom: 25,
-
-    minWidth: 190,
-
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-
-    borderRadius: 25,
-
-    backgroundColor: "#A855F7",
-
+    right: 20,
+    bottom: 24,
+    height: 58,
+    paddingHorizontal: 17,
+    borderRadius: 18,
+    backgroundColor: "#075985",
     flexDirection: "row",
     alignItems: "center",
-
-    borderWidth: 3,
-    borderColor: "#F9A8D4",
-
-    elevation: 10,
-
-    shadowColor: "#7E22CE",
-    shadowOpacity: 0.3,
+    shadowColor: "#075985",
+    shadowOpacity: 0.28,
     shadowRadius: 10,
-
     shadowOffset: {
       width: 0,
       height: 5,
     },
+    elevation: 6,
   },
 
-  cameraIconCircle: {
-    width: 45,
-    height: 45,
-
-    borderRadius: 23,
-
+  cameraLensOuter: {
+    width: 31,
+    height: 31,
+    borderRadius: 16,
     backgroundColor: "#FFFFFF",
-
     justifyContent: "center",
     alignItems: "center",
-
-    marginRight: 10,
+    marginRight: 8,
   },
 
-  cameraIcon: {
-    fontSize: 22,
+  cameraLensInner: {
+    width: 15,
+    height: 15,
+    borderRadius: 8,
+    backgroundColor: "#0E7490",
+    borderWidth: 2,
+    borderColor: "#BAE6FD",
   },
 
-  cameraButtonTitle: {
+  floatingCameraText: {
     color: "#FFFFFF",
-    fontSize: 15,
-    fontWeight: "900",
-  },
-
-  cameraButtonSubtitle: {
-    color: "#FCE7F3",
     fontSize: 10,
-    marginTop: 2,
+    fontWeight: "800",
+    letterSpacing: 1,
   },
 
-  // ===============================
-  // CAMERA
-  // ===============================
+  // ====================================================
+  // CAMERA SCREEN
+  // ====================================================
 
   cameraContainer: {
     flex: 1,
-    backgroundColor: "#160D1F",
+    backgroundColor: "#0F172A",
   },
 
   camera: {
     flex: 1,
   },
 
-  cameraTopGlow: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 180,
-
-    backgroundColor: "rgba(168,85,247,0.18)",
+  cameraOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(7,89,133,0.10)",
   },
 
   cameraTop: {
     position: "absolute",
-
-    top: 50,
+    top: 52,
     left: 18,
     right: 18,
-
     flexDirection: "row",
-
-    alignItems: "center",
-
     justifyContent: "space-between",
+    alignItems: "center",
+    zIndex: 10,
   },
 
-  cameraRoundButton: {
-    width: 48,
-    height: 48,
-
-    borderRadius: 18,
-
-    backgroundColor: "rgba(168,85,247,0.85)",
-
+  cameraButton: {
+    width: 46,
+    height: 46,
+    borderRadius: 15,
+    backgroundColor: "rgba(7,89,133,0.78)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.25)",
     justifyContent: "center",
     alignItems: "center",
-
-    borderWidth: 2,
-    borderColor: "#F9A8D4",
   },
 
-  cameraRoundText: {
+  cameraButtonText: {
     color: "#FFFFFF",
-    fontSize: 28,
-    fontWeight: "500",
-  },
-
-  cameraTitleBox: {
-    paddingHorizontal: 20,
-    paddingVertical: 9,
-
-    borderRadius: 18,
-
-    backgroundColor: "rgba(255,255,255,0.95)",
-
-    borderWidth: 2,
-    borderColor: "#F472B6",
-
-    alignItems: "center",
+    fontSize: 26,
+    fontWeight: "400",
   },
 
   cameraTitle: {
-    color: "#7E22CE",
-    fontSize: 11,
-    fontWeight: "900",
+    alignItems: "center",
+  },
+
+  cameraTitleSmall: {
+    color: "#BAE6FD",
+    fontSize: 8,
+    fontWeight: "800",
     letterSpacing: 2,
   },
 
-  cameraSubtitle: {
-    color: "#EC4899",
-    fontSize: 8,
+  cameraTitleMain: {
+    color: "#FFFFFF",
+    fontSize: 13,
+    fontWeight: "700",
     marginTop: 2,
-    letterSpacing: 1,
-    fontWeight: "800",
   },
+
+  // ====================================================
+  // CAMERA GUIDE
+  // ====================================================
+
+  cameraGuide: {
+    position: "absolute",
+    top: "28%",
+    bottom: "28%",
+    left: 30,
+    right: 30,
+  },
+
+  guideCornerTopLeft: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 35,
+    height: 35,
+    borderTopWidth: 2,
+    borderLeftWidth: 2,
+    borderColor: "rgba(255,255,255,0.65)",
+  },
+
+  guideCornerTopRight: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 35,
+    height: 35,
+    borderTopWidth: 2,
+    borderRightWidth: 2,
+    borderColor: "rgba(255,255,255,0.65)",
+  },
+
+  guideCornerBottomLeft: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: 35,
+    height: 35,
+    borderBottomWidth: 2,
+    borderLeftWidth: 2,
+    borderColor: "rgba(255,255,255,0.65)",
+  },
+
+  guideCornerBottomRight: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    width: 35,
+    height: 35,
+    borderBottomWidth: 2,
+    borderRightWidth: 2,
+    borderColor: "rgba(255,255,255,0.65)",
+  },
+
+  // ====================================================
+  // CAMERA LOADING
+  // ====================================================
 
   cameraLoading: {
     position: "absolute",
-
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(7,89,133,0.45)",
+  },
 
-    backgroundColor: "rgba(22,13,31,0.5)",
+  loadingCircle: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "rgba(255,255,255,0.12)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  cameraLoadingTitle: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "700",
+    marginTop: 15,
   },
 
   cameraLoadingText: {
-    color: "#FFFFFF",
-    marginTop: 12,
-    fontSize: 13,
+    color: "#BAE6FD",
+    fontSize: 12,
+    marginTop: 5,
   },
+
+  // ====================================================
+  // CAMERA BOTTOM
+  // ====================================================
 
   cameraBottom: {
     position: "absolute",
-
-    bottom: 35,
+    bottom: 45,
     left: 0,
     right: 0,
-
     alignItems: "center",
   },
 
   cameraHint: {
     color: "#FFFFFF",
     fontSize: 12,
-
-    marginBottom: 14,
-
-    opacity: 0.9,
+    marginBottom: 15,
+    opacity: 0.85,
   },
 
   captureButton: {
-    width: 92,
-    height: 92,
-
-    borderRadius: 46,
-
-    backgroundColor: "#FFFFFF",
-
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    backgroundColor: "rgba(255,255,255,0.15)",
+    borderWidth: 3,
+    borderColor: "#FFFFFF",
     justifyContent: "center",
     alignItems: "center",
-
-    borderWidth: 5,
-    borderColor: "#F472B6",
   },
 
   captureDisabled: {
@@ -1169,93 +1168,80 @@ const styles = StyleSheet.create({
   },
 
   captureInner: {
-    width: 70,
-    height: 70,
-
-    borderRadius: 35,
-
-    backgroundColor: "#A855F7",
-
+    width: 66,
+    height: 66,
+    borderRadius: 33,
+    backgroundColor: "#FFFFFF",
     justifyContent: "center",
     alignItems: "center",
-
-    borderWidth: 4,
-    borderColor: "#FFFFFF",
   },
 
-  captureIcon: {
-    color: "#FFFFFF",
-    fontSize: 30,
-  },
-
-  // ===============================
+  // ====================================================
   // FULLSCREEN
-  // ===============================
+  // ====================================================
 
   fullscreen: {
     flex: 1,
-
-    backgroundColor: "#160D1F",
-
+    backgroundColor: "#06283D",
     justifyContent: "center",
     alignItems: "center",
   },
 
   fullscreenTop: {
     position: "absolute",
-
-    top: 50,
+    top: 52,
     left: 20,
     right: 20,
-
-    flexDirection: "row",
-
-    alignItems: "center",
-    justifyContent: "space-between",
-
     zIndex: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  fullscreenSmall: {
+    color: "#7DD3FC",
+    fontSize: 8,
+    fontWeight: "800",
+    letterSpacing: 2,
   },
 
   fullscreenTitle: {
     color: "#FFFFFF",
-    fontSize: 16,
-    fontWeight: "900",
+    fontSize: 18,
+    fontWeight: "800",
+    marginTop: 2,
   },
 
   closeFullscreen: {
-    width: 50,
-    height: 50,
-
-    borderRadius: 18,
-
-    backgroundColor: "#A855F7",
-
+    width: 46,
+    height: 46,
+    borderRadius: 15,
+    backgroundColor: "rgba(255,255,255,0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.2)",
     justifyContent: "center",
     alignItems: "center",
-
-    borderWidth: 2,
-    borderColor: "#F472B6",
   },
 
   closeText: {
     color: "#FFFFFF",
     fontSize: 28,
+    fontWeight: "300",
   },
 
   fullscreenImage: {
     width: "100%",
-    height: "100%",
+    height: "75%",
   },
 
   fullscreenBottom: {
     position: "absolute",
+    bottom: 40,
+    alignItems: "center",
+  },
 
-    bottom: 25,
-
-    color: "#F9A8D4",
-
+  fullscreenHint: {
+    color: "#BAE6FD",
     fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 2,
   },
 });

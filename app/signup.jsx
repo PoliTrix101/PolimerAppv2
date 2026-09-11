@@ -13,7 +13,7 @@ import {
   View,
 } from "react-native";
 
-const API_URL = "http://192.168.1.104:3000";
+const API_URL = "http://192.168.137.29:3000";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -101,53 +101,18 @@ export default function Signup() {
 
   return (
     <View style={styles.screen}>
+      {/* BACKGROUND */}
 
-      {/* BACKGROUND DECORATION */}
-      <View style={styles.backgroundDecor}>
-        <View style={styles.circlePink} />
-        <View style={styles.circleViolet} />
-        <View style={styles.circleSmall} />
+      <View style={styles.oceanBackground} />
+      <View style={styles.waveOne} />
+      <View style={styles.waveTwo} />
 
-        <Text style={[styles.star, styles.star1]}>✦</Text>
-        <Text style={[styles.star, styles.star2]}>✧</Text>
-        <Text style={[styles.star, styles.star3]}>★</Text>
+      <View style={styles.sun} />
 
-        <Text style={[styles.heart, styles.heart1]}>♡</Text>
-        <Text style={[styles.heart, styles.heart2]}>♡</Text>
+      <View style={styles.bubbleOne} />
+      <View style={styles.bubbleTwo} />
+      <View style={styles.bubbleThree} />
 
-        <View style={styles.dot1} />
-        <View style={styles.dot2} />
-        <View style={styles.dot3} />
-      </View>
-
-      {/* HEADER */}
-      <View style={styles.header}>
-
-        <View style={styles.headerIcon}>
-          <Text style={styles.headerIconText}>✦</Text>
-        </View>
-
-        <Text style={styles.brand}>
-          KUROMIAPP
-        </Text>
-
-        <Text style={styles.title}>
-          Create Account
-        </Text>
-
-        <Text style={styles.subtitle}>
-          Welcome to our little world ♡
-        </Text>
-
-        <View style={styles.headerLine}>
-          <View style={styles.line} />
-          <Text style={styles.lineSymbol}>✦</Text>
-          <View style={styles.line} />
-        </View>
-
-      </View>
-
-      {/* FORM */}
       <KeyboardAvoidingView
         style={styles.keyboardWrapper}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -158,31 +123,59 @@ export default function Signup() {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
+          {/* BRAND */}
 
-          <View style={styles.form}>
+          <View style={styles.header}>
+            <View style={styles.waveLogo}>
+              <View style={styles.logoWaveOne} />
+              <View style={styles.logoWaveTwo} />
+            </View>
 
-            {/* FORM HEADER */}
-            <View style={styles.formHeader}>
+            <View style={styles.brandCopy}>
+              <Text style={styles.brand}>
+                WAVEAPP
+              </Text>
 
-              <View style={styles.formIcon}>
-                <Text style={styles.formIconText}>♡</Text>
+              <Text style={styles.brandMeta}>
+                JOIN THE ADVENTURE
+              </Text>
+            </View>
+          </View>
+
+          {/* CARD */}
+
+          <View style={styles.card}>
+            <View style={styles.cardTopLine} />
+
+            <View style={styles.titleRow}>
+              <View style={styles.titleArea}>
+                <Text style={styles.smallTitle}>
+                  START YOUR JOURNEY
+                </Text>
+
+                <Text style={styles.title}>
+                  Create Account
+                </Text>
+
+                <Text style={styles.subtitle}>
+                  Join WaveApp and save your ocean
+                  adventures.
+                </Text>
               </View>
 
-              <Text style={styles.formTitle}>
-                Sign Up
-              </Text>
-
-              <Text style={styles.formSubtitle}>
-                Create your KUROMIAPP account
-              </Text>
-
+              <View style={styles.statusCircle}>
+                <View style={styles.statusDot} />
+              </View>
             </View>
 
             {/* SUCCESS */}
+
             {successMessage ? (
-              <View style={styles.successBanner}>
-                <View style={styles.messageIconSuccess}>
-                  <Text style={styles.messageIconText}>✓</Text>
+              <View style={styles.successBox}>
+                <View style={styles.successIcon}>
+                  <Text style={styles.successIconText}>
+                    ✓
+                  </Text>
                 </View>
 
                 <Text style={styles.successText}>
@@ -192,10 +185,13 @@ export default function Signup() {
             ) : null}
 
             {/* ERROR */}
+
             {errorMessage ? (
-              <View style={styles.errorBanner}>
-                <View style={styles.messageIconError}>
-                  <Text style={styles.messageIconText}>!</Text>
+              <View style={styles.errorBox}>
+                <View style={styles.errorIcon}>
+                  <Text style={styles.errorIconText}>
+                    !
+                  </Text>
                 </View>
 
                 <Text style={styles.errorText}>
@@ -204,88 +200,135 @@ export default function Signup() {
               </View>
             ) : null}
 
-            {/* FIRST NAME */}
-            <Text style={styles.label}>
-              First Name
-            </Text>
+            {/* FIRST + LAST NAME */}
 
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your first name"
-              placeholderTextColor="#A99BB5"
-              value={fname}
-              onChangeText={setFname}
-              editable={!loading}
-            />
+            <View style={styles.nameRow}>
+              <View style={styles.nameField}>
+                <Text style={styles.label}>
+                  FIRST NAME
+                </Text>
 
-            {/* LAST NAME */}
-            <Text style={styles.label}>
-              Last Name
-            </Text>
+                <View style={styles.inputBox}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="First name"
+                    placeholderTextColor="#8AA5AE"
+                    value={fname}
+                    onChangeText={setFname}
+                    editable={!loading}
+                  />
+                </View>
+              </View>
 
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your last name"
-              placeholderTextColor="#A99BB5"
-              value={lname}
-              onChangeText={setLname}
-              editable={!loading}
-            />
+              <View style={styles.nameField}>
+                <Text style={styles.label}>
+                  LAST NAME
+                </Text>
+
+                <View style={styles.inputBox}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Last name"
+                    placeholderTextColor="#8AA5AE"
+                    value={lname}
+                    onChangeText={setLname}
+                    editable={!loading}
+                  />
+                </View>
+              </View>
+            </View>
 
             {/* USERNAME */}
-            <Text style={styles.label}>
-              Username
-            </Text>
 
-            <TextInput
-              style={styles.input}
-              placeholder="Choose a username"
-              placeholderTextColor="#A99BB5"
-              value={username}
-              onChangeText={setUsername}
-              autoCapitalize="none"
-              autoCorrect={false}
-              editable={!loading}
-            />
+            <View style={styles.fieldGroup}>
+              <Text style={styles.label}>
+                USERNAME
+              </Text>
+
+              <View style={styles.inputBox}>
+                <View style={styles.userIcon}>
+                  <View style={styles.userHead} />
+                  <View style={styles.userBody} />
+                </View>
+
+                <View style={styles.inputDivider} />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Choose a username"
+                  placeholderTextColor="#8AA5AE"
+                  value={username}
+                  onChangeText={setUsername}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  editable={!loading}
+                />
+              </View>
+            </View>
 
             {/* EMAIL */}
-            <Text style={styles.label}>
-              Email
-            </Text>
 
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your email"
-              placeholderTextColor="#A99BB5"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              editable={!loading}
-            />
+            <View style={styles.fieldGroup}>
+              <Text style={styles.label}>
+                EMAIL
+              </Text>
+
+              <View style={styles.inputBox}>
+                <View style={styles.mailIcon}>
+                  <View style={styles.mailTop} />
+                  <View style={styles.mailBottom} />
+                </View>
+
+                <View style={styles.inputDivider} />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="you@example.com"
+                  placeholderTextColor="#8AA5AE"
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  editable={!loading}
+                />
+              </View>
+            </View>
 
             {/* PASSWORD */}
-            <Text style={styles.label}>
-              Password
-            </Text>
 
-            <TextInput
-              style={styles.input}
-              placeholder="Create a password"
-              placeholderTextColor="#A99BB5"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              autoCapitalize="none"
-              editable={!loading}
-            />
+            <View style={styles.fieldGroup}>
+              <Text style={styles.label}>
+                PASSWORD
+              </Text>
+
+              <View style={styles.inputBox}>
+                <View style={styles.lockIcon}>
+                  <View style={styles.lockTop} />
+                  <View style={styles.lockBody} />
+                </View>
+
+                <View style={styles.inputDivider} />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Create a password"
+                  placeholderTextColor="#8AA5AE"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                  autoCapitalize="none"
+                  editable={!loading}
+                />
+              </View>
+            </View>
 
             {/* CREATE ACCOUNT */}
+
             <TouchableOpacity
               style={[
-                styles.signupButton,
-                loading && styles.disabledButton,
+                styles.primaryButton,
+                loading && styles.disabled,
               ]}
               onPress={handleSignup}
               disabled={loading}
@@ -295,317 +338,85 @@ export default function Signup() {
                 <ActivityIndicator color="#FFFFFF" />
               ) : (
                 <>
-                  <Text style={styles.buttonIcon}>
-                    ✦
+                  <Text style={styles.primaryButtonText}>
+                    CREATE MY ACCOUNT
                   </Text>
 
-                  <Text style={styles.signupText}>
-                    CREATE ACCOUNT
-                  </Text>
-
-                  <Text style={styles.signupArrow}>
-                    →
-                  </Text>
+                  <View style={styles.buttonArrow}>
+                    <Text style={styles.buttonArrowText}>
+                      →
+                    </Text>
+                  </View>
                 </>
               )}
             </TouchableOpacity>
 
             {/* DIVIDER */}
-            <View style={styles.dividerContainer}>
-              <View style={styles.divider} />
+
+            <View style={styles.dividerRow}>
+              <View style={styles.dividerLine} />
 
               <Text style={styles.dividerText}>
-                OR
+                ALREADY A MEMBER?
               </Text>
 
-              <View style={styles.divider} />
+              <View style={styles.dividerLine} />
             </View>
 
             {/* LOGIN */}
-            <View style={styles.loginContainer}>
 
-              <Text style={styles.loginQuestion}>
-                Already have an account?
+            <TouchableOpacity
+              style={styles.secondaryButton}
+              onPress={() =>
+                router.replace("/(tabs)/login")
+              }
+              disabled={loading}
+              activeOpacity={0.85}
+            >
+              <Text style={styles.secondaryButtonText}>
+                BACK TO SIGN IN
               </Text>
 
-              <TouchableOpacity
-                onPress={() =>
-                  router.replace("/(tabs)/login")
-                }
-                disabled={loading}
-              >
-                <Text style={styles.loginLink}>
-                  Login
-                </Text>
-              </TouchableOpacity>
-
-            </View>
-
-            {/* BOTTOM */}
-            <View style={styles.bottomDecoration}>
-
-              <Text style={styles.bottomSymbol}>
-                ✦
+              <Text style={styles.secondaryArrow}>
+                ←
               </Text>
-
-              <View style={styles.bottomLine} />
-
-              <Text style={styles.bottomHeart}>
-                ♡
-              </Text>
-
-              <View style={styles.bottomLine} />
-
-              <Text style={styles.bottomSymbol}>
-                ✦
-              </Text>
-
-            </View>
-
-            <Text style={styles.bottomText}>
-              Made with love for KUROMIAPP ♡
-            </Text>
-
+            </TouchableOpacity>
           </View>
 
+          {/* FOOTER */}
+
+          <View style={styles.footer}>
+            <View style={styles.footerWave}>
+              <View style={styles.footerWaveLine} />
+            </View>
+
+            <Text style={styles.footerTitle}>
+              WAVEAPP
+            </Text>
+
+            <Text style={styles.footerText}>
+              FIND YOUR WAVE
+            </Text>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
-
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-
-  // ==========================================
+  // ==================================================
   // SCREEN
-  // ==========================================
+  // ==================================================
 
   screen: {
     flex: 1,
-    backgroundColor: "#12091A",
-  },
-
-  // ==========================================
-  // BACKGROUND
-  // ==========================================
-
-  backgroundDecor: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    backgroundColor: "#EAF8FB",
     overflow: "hidden",
   },
 
-  circlePink: {
-    position: "absolute",
-    width: 260,
-    height: 260,
-    borderRadius: 130,
-    backgroundColor: "#E84393",
-    opacity: 0.12,
-    top: -100,
-    right: -90,
-  },
-
-  circleViolet: {
-    position: "absolute",
-    width: 280,
-    height: 280,
-    borderRadius: 140,
-    backgroundColor: "#8E44AD",
-    opacity: 0.13,
-    bottom: -120,
-    left: -110,
-  },
-
-  circleSmall: {
-    position: "absolute",
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#FF69B4",
-    opacity: 0.08,
-    top: 300,
-    right: -30,
-  },
-
-  star: {
-    position: "absolute",
-    color: "#FF69B4",
-    fontWeight: "900",
-  },
-
-  star1: {
-    top: 100,
-    left: 25,
-    fontSize: 28,
-  },
-
-  star2: {
-    top: 230,
-    right: 25,
-    fontSize: 22,
-    color: "#C77DFF",
-  },
-
-  star3: {
-    bottom: 120,
-    left: 30,
-    fontSize: 25,
-    color: "#FFFFFF",
-  },
-
-  heart: {
-    position: "absolute",
-    color: "#FF69B4",
-    fontWeight: "900",
-  },
-
-  heart1: {
-    top: 170,
-    right: 35,
-    fontSize: 30,
-  },
-
-  heart2: {
-    bottom: 190,
-    right: 30,
-    fontSize: 30,
-    color: "#C77DFF",
-  },
-
-  dot1: {
-    position: "absolute",
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#FF69B4",
-    top: 350,
-    left: 35,
-  },
-
-  dot2: {
-    position: "absolute",
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: "#C77DFF",
-    top: 420,
-    right: 45,
-  },
-
-  dot3: {
-    position: "absolute",
-    width: 7,
-    height: 7,
-    borderRadius: 4,
-    backgroundColor: "#FFB3D9",
-    bottom: 300,
-    left: 50,
-  },
-
-  // ==========================================
-  // HEADER
-  // ==========================================
-
-  header: {
-    backgroundColor: "#251331",
-    alignItems: "center",
-
-    paddingTop: 42,
-    paddingBottom: 48,
-
-    borderBottomLeftRadius: 42,
-    borderBottomRightRadius: 42,
-
-    borderBottomWidth: 2,
-    borderBottomColor: "#FF5FA2",
-
-    elevation: 10,
-
-    shadowColor: "#FF5FA2",
-    shadowOpacity: 0.2,
-    shadowRadius: 15,
-
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-  },
-
-  headerIcon: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-
-    backgroundColor: "#35183F",
-
-    justifyContent: "center",
-    alignItems: "center",
-
-    borderWidth: 2,
-    borderColor: "#FF5FA2",
-
-    marginBottom: 10,
-
-    elevation: 6,
-  },
-
-  headerIconText: {
-    color: "#FF69B4",
-    fontSize: 34,
-    fontWeight: "900",
-  },
-
-  brand: {
-    color: "#FF8FBE",
-    fontSize: 10,
-    fontWeight: "900",
-    letterSpacing: 5,
-    marginBottom: 5,
-  },
-
-  title: {
-    color: "#FFFFFF",
-    fontSize: 29,
-    fontWeight: "900",
-  },
-
-  subtitle: {
-    color: "#C9B7D3",
-    fontSize: 14,
-    marginTop: 6,
-  },
-
-  headerLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 17,
-    width: "65%",
-  },
-
-  line: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#6E4A7C",
-  },
-
-  lineSymbol: {
-    color: "#FF69B4",
-    fontSize: 18,
-    marginHorizontal: 10,
-  },
-
-  // ==========================================
-  // KEYBOARD
-  // ==========================================
-
   keyboardWrapper: {
     flex: 1,
-    marginTop: -24,
   },
 
   scroll: {
@@ -613,333 +424,601 @@ const styles = StyleSheet.create({
   },
 
   scrollContent: {
+    flexGrow: 1,
+    justifyContent: "center",
     paddingHorizontal: 20,
-    paddingBottom: 40,
+    paddingVertical: 28,
   },
 
-  // ==========================================
-  // FORM
-  // ==========================================
+  // ==================================================
+  // BACKGROUND
+  // ==================================================
 
-  form: {
+  oceanBackground: {
+    position: "absolute",
+    width: 620,
+    height: 390,
+    borderRadius: 310,
+    top: -205,
+    left: -120,
+    backgroundColor: "#075985",
+  },
+
+  waveOne: {
+    position: "absolute",
+    width: 620,
+    height: 150,
+    borderRadius: 310,
+    top: 35,
+    left: -130,
+    backgroundColor: "#0E7490",
+    opacity: 0.8,
+  },
+
+  waveTwo: {
+    position: "absolute",
+    width: 680,
+    height: 135,
+    borderRadius: 340,
+    top: 90,
+    left: -150,
+    backgroundColor: "#38BDF8",
+    opacity: 0.3,
+  },
+
+  sun: {
+    position: "absolute",
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    right: 28,
+    top: 55,
+    backgroundColor: "#FFF0BE",
+    opacity: 0.9,
+  },
+
+  bubbleOne: {
+    position: "absolute",
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    right: 110,
+    top: 155,
+    backgroundColor: "rgba(255,255,255,0.45)",
+  },
+
+  bubbleTwo: {
+    position: "absolute",
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    right: 75,
+    top: 185,
+    backgroundColor: "rgba(255,255,255,0.35)",
+  },
+
+  bubbleThree: {
+    position: "absolute",
+    width: 5,
+    height: 5,
+    borderRadius: 3,
+    right: 145,
+    top: 125,
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+
+  // ==================================================
+  // HEADER
+  // ==================================================
+
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
     width: "100%",
     maxWidth: 430,
-    alignSelf: "center",
-
-    backgroundColor: "#24142F",
-
-    borderRadius: 27,
-
-    padding: 24,
-
-    borderWidth: 1.5,
-    borderColor: "#5B3A69",
-
-    elevation: 12,
-
-    shadowColor: "#000",
-    shadowOpacity: 0.45,
-    shadowRadius: 15,
-
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
+    marginBottom: 17,
   },
 
-  formHeader: {
-    alignItems: "center",
-    marginBottom: 20,
+  waveLogo: {
+    width: 58,
+    height: 58,
+    borderRadius: 19,
+    backgroundColor: "#FFFFFF",
+    overflow: "hidden",
+    marginRight: 13,
   },
 
-  formIcon: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-
-    backgroundColor: "#381B47",
-
-    justifyContent: "center",
-    alignItems: "center",
-
-    borderWidth: 1,
-    borderColor: "#FF5FA2",
-
-    marginBottom: 8,
+  logoWaveOne: {
+    position: "absolute",
+    width: 80,
+    height: 35,
+    borderRadius: 40,
+    backgroundColor: "#0E7490",
+    bottom: -9,
+    left: -12,
   },
 
-  formIconText: {
-    color: "#FF69B4",
-    fontSize: 28,
-    fontWeight: "900",
+  logoWaveTwo: {
+    position: "absolute",
+    width: 70,
+    height: 27,
+    borderRadius: 35,
+    backgroundColor: "#38BDF8",
+    bottom: -7,
+    left: 5,
+    opacity: 0.75,
   },
 
-  formTitle: {
+  brandCopy: {
+    flex: 1,
+  },
+
+  brand: {
     color: "#FFFFFF",
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "900",
+    letterSpacing: 3,
   },
 
-  formSubtitle: {
-    color: "#AFA0B7",
-    fontSize: 13,
+  brandMeta: {
+    color: "#BAE6FD",
+    fontSize: 8,
+    fontWeight: "800",
+    letterSpacing: 1.6,
     marginTop: 4,
   },
 
-  // ==========================================
-  // MESSAGES
-  // ==========================================
+  // ==================================================
+  // CARD
+  // ==================================================
 
-  successBanner: {
-    backgroundColor: "#282044",
-
+  card: {
+    width: "100%",
+    maxWidth: 430,
+    alignSelf: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 26,
+    padding: 22,
     borderWidth: 1,
-    borderColor: "#A56BDE",
+    borderColor: "#D5EDF2",
 
-    borderRadius: 13,
+    shadowColor: "#075985",
+    shadowOpacity: 0.14,
+    shadowRadius: 25,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
 
-    padding: 11,
-    marginBottom: 15,
+    elevation: 10,
+    overflow: "hidden",
+  },
 
+  cardTopLine: {
+    position: "absolute",
+    top: 0,
+    left: 25,
+    right: 25,
+    height: 4,
+    backgroundColor: "#0E7490",
+  },
+
+  titleRow: {
     flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+
+  titleArea: {
+    flex: 1,
+  },
+
+  smallTitle: {
+    color: "#0E7490",
+    fontSize: 8,
+    fontWeight: "900",
+    letterSpacing: 1.8,
+  },
+
+  title: {
+    color: "#083344",
+    fontSize: 27,
+    fontWeight: "900",
+    marginTop: 3,
+  },
+
+  subtitle: {
+    color: "#78909C",
+    fontSize: 10.5,
+    lineHeight: 16,
+    marginTop: 4,
+  },
+
+  statusCircle: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: "#E8F8FA",
+    justifyContent: "center",
     alignItems: "center",
   },
 
-  messageIconSuccess: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
+  statusDot: {
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+    backgroundColor: "#14B8A6",
+  },
 
-    backgroundColor: "#A56BDE",
+  // ==================================================
+  // MESSAGES
+  // ==================================================
 
+  successBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#EFFBF3",
+    borderWidth: 1,
+    borderColor: "#BCE6C8",
+    borderRadius: 13,
+    padding: 10,
+    marginBottom: 15,
+  },
+
+  successIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 8,
+    backgroundColor: "#22A447",
     justifyContent: "center",
     alignItems: "center",
+    marginRight: 9,
+  },
 
-    marginRight: 8,
+  successIconText: {
+    color: "#FFFFFF",
+    fontSize: 13,
+    fontWeight: "900",
   },
 
   successText: {
     flex: 1,
-    color: "#DCCBFF",
-    fontSize: 13,
-    fontWeight: "700",
+    color: "#267A3D",
+    fontSize: 11,
   },
 
-  errorBanner: {
-    backgroundColor: "#421B31",
-
-    borderWidth: 1,
-    borderColor: "#FF5C9A",
-
-    borderRadius: 13,
-
-    padding: 11,
-    marginBottom: 15,
-
+  errorBox: {
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "#FFF3F3",
+    borderWidth: 1,
+    borderColor: "#F1CCCC",
+    borderRadius: 13,
+    padding: 10,
+    marginBottom: 15,
   },
 
-  messageIconError: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-
-    backgroundColor: "#FF5C9A",
-
+  errorIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 8,
+    backgroundColor: "#D94A4A",
     justifyContent: "center",
     alignItems: "center",
-
-    marginRight: 8,
+    marginRight: 9,
   },
 
-  messageIconText: {
+  errorIconText: {
     color: "#FFFFFF",
+    fontSize: 13,
     fontWeight: "900",
   },
 
   errorText: {
     flex: 1,
-    color: "#FFB4CE",
-    fontSize: 13,
-    fontWeight: "600",
+    color: "#A33B3B",
+    fontSize: 11,
+    lineHeight: 16,
   },
 
-  // ==========================================
-  // LABELS
-  // ==========================================
+  // ==================================================
+  // NAME ROW
+  // ==================================================
+
+  nameRow: {
+    flexDirection: "row",
+    gap: 10,
+  },
+
+  nameField: {
+    flex: 1,
+    marginBottom: 14,
+  },
+
+  // ==================================================
+  // FIELDS
+  // ==================================================
+
+  fieldGroup: {
+    marginBottom: 14,
+  },
 
   label: {
-    color: "#E8D9EF",
-    fontSize: 14,
-    fontWeight: "800",
-
-    marginBottom: 7,
-    marginLeft: 2,
+    color: "#54727B",
+    fontSize: 8.5,
+    fontWeight: "900",
+    letterSpacing: 1.5,
+    marginBottom: 6,
   },
 
-  // ==========================================
-  // INPUTS
-  // ==========================================
+  inputBox: {
+    height: 51,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F5FBFC",
+    borderWidth: 1,
+    borderColor: "#D5EAF0",
+    borderRadius: 13,
+    paddingHorizontal: 11,
+  },
 
   input: {
-    height: 53,
-
-    borderWidth: 1.5,
-    borderColor: "#654771",
-
-    borderRadius: 14,
-
-    paddingHorizontal: 16,
-
-    marginBottom: 16,
-
-    backgroundColor: "#170D20",
-
-    color: "#FFFFFF",
-
-    fontSize: 16,
+    flex: 1,
+    height: "100%",
+    color: "#123B48",
+    fontSize: 13,
   },
 
-  // ==========================================
-  // BUTTON
-  // ==========================================
+  inputDivider: {
+    width: 1,
+    height: 18,
+    backgroundColor: "#D5EAF0",
+    marginHorizontal: 10,
+  },
 
-  signupButton: {
-    height: 55,
+  // ==================================================
+  // USER ICON
+  // ==================================================
 
-    borderRadius: 15,
-
-    backgroundColor: "#FF5FA2",
-
+  userIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 8,
+    backgroundColor: "#DDF6FA",
     justifyContent: "center",
     alignItems: "center",
+  },
 
+  userHead: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    backgroundColor: "#0E7490",
+    position: "absolute",
+    top: 4,
+  },
+
+  userBody: {
+    width: 13,
+    height: 7,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    backgroundColor: "#0E7490",
+    position: "absolute",
+    bottom: 4,
+  },
+
+  // ==================================================
+  // MAIL ICON
+  // ==================================================
+
+  mailIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 8,
+    backgroundColor: "#DDF6FA",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  mailTop: {
+    width: 14,
+    height: 10,
+    borderWidth: 1.5,
+    borderColor: "#0E7490",
+    borderRadius: 3,
+  },
+
+  mailBottom: {
+    position: "absolute",
+    width: 9,
+    height: 9,
+    borderLeftWidth: 1.5,
+    borderBottomWidth: 1.5,
+    borderColor: "#0E7490",
+    transform: [
+      {
+        rotate: "-45deg",
+      },
+    ],
+    top: 4,
+  },
+
+  // ==================================================
+  // LOCK ICON
+  // ==================================================
+
+  lockIcon: {
+    width: 24,
+    height: 24,
+    borderRadius: 8,
+    backgroundColor: "#DDF6FA",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  lockTop: {
+    width: 9,
+    height: 7,
+    borderWidth: 2,
+    borderColor: "#0E7490",
+    borderBottomWidth: 0,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    position: "absolute",
+    top: 4,
+  },
+
+  lockBody: {
+    width: 13,
+    height: 9,
+    borderRadius: 3,
+    backgroundColor: "#0E7490",
+    position: "absolute",
+    bottom: 4,
+  },
+
+  // ==================================================
+  // PRIMARY BUTTON
+  // ==================================================
+
+  primaryButton: {
+    height: 55,
+    borderRadius: 15,
+    backgroundColor: "#075985",
     flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 2,
 
-    marginTop: 3,
-
-    elevation: 5,
-
-    shadowColor: "#FF5FA2",
-    shadowOpacity: 0.35,
-    shadowRadius: 9,
-
+    shadowColor: "#075985",
+    shadowOpacity: 0.24,
+    shadowRadius: 12,
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 6,
     },
+
+    elevation: 5,
   },
 
-  buttonIcon: {
-    color: "#281432",
+  primaryButtonText: {
+    color: "#FFFFFF",
+    fontSize: 10,
+    fontWeight: "900",
+    letterSpacing: 1.3,
+  },
+
+  buttonArrow: {
+    width: 29,
+    height: 29,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.15)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
+  },
+
+  buttonArrowText: {
+    color: "#FFFFFF",
     fontSize: 18,
-    fontWeight: "900",
-    marginRight: 8,
   },
 
-  signupText: {
-    color: "#281432",
-
-    fontSize: 15,
-    fontWeight: "900",
-
-    letterSpacing: 1.2,
+  disabled: {
+    opacity: 0.5,
   },
 
-  signupArrow: {
-    color: "#281432",
-
-    fontSize: 22,
-    fontWeight: "900",
-
-    marginLeft: 9,
-  },
-
-  disabledButton: {
-    opacity: 0.55,
-  },
-
-  // ==========================================
+  // ==================================================
   // DIVIDER
-  // ==========================================
+  // ==================================================
 
-  dividerContainer: {
+  dividerRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 22,
+    marginVertical: 18,
   },
 
-  divider: {
+  dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: "#4A3555",
+    backgroundColor: "#E1EFF2",
   },
 
   dividerText: {
-    color: "#A18BAE",
-
-    marginHorizontal: 12,
-
-    fontSize: 11,
+    color: "#8AA5AE",
+    fontSize: 7.5,
     fontWeight: "900",
+    letterSpacing: 1.2,
+    marginHorizontal: 9,
   },
 
-  // ==========================================
-  // LOGIN
-  // ==========================================
+  // ==================================================
+  // SECONDARY BUTTON
+  // ==================================================
 
-  loginContainer: {
-    flexDirection: "row",
+  secondaryButton: {
+    height: 49,
+    borderRadius: 13,
+    backgroundColor: "#F0FAFC",
+    borderWidth: 1,
+    borderColor: "#B9E3EA",
     justifyContent: "center",
     alignItems: "center",
-  },
-
-  loginQuestion: {
-    color: "#AFA0B7",
-    fontSize: 14,
-    marginRight: 5,
-  },
-
-  loginLink: {
-    color: "#FF79AE",
-    fontSize: 14,
-    fontWeight: "900",
-  },
-
-  // ==========================================
-  // BOTTOM
-  // ==========================================
-
-  bottomDecoration: {
     flexDirection: "row",
+  },
+
+  secondaryButtonText: {
+    color: "#0E7490",
+    fontSize: 9.5,
+    fontWeight: "900",
+    letterSpacing: 1.4,
+  },
+
+  secondaryArrow: {
+    color: "#0E7490",
+    fontSize: 17,
+    marginLeft: 9,
+  },
+
+  // ==================================================
+  // FOOTER
+  // ==================================================
+
+  footer: {
     alignItems: "center",
-    marginTop: 25,
+    marginTop: 16,
   },
 
-  bottomLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#4A3555",
+  footerWave: {
+    width: 38,
+    height: 9,
+    overflow: "hidden",
+    marginBottom: 4,
   },
 
-  bottomSymbol: {
-    color: "#FF5FA2",
-    fontSize: 15,
-    marginHorizontal: 8,
+  footerWaveLine: {
+    width: 45,
+    height: 17,
+    borderRadius: 20,
+    borderTopWidth: 2,
+    borderColor: "#7DD3FC",
   },
 
-  bottomHeart: {
-    color: "#C77DFF",
-    fontSize: 21,
-    marginHorizontal: 7,
+  footerTitle: {
+    color: "#0E7490",
+    fontSize: 8,
+    fontWeight: "900",
+    letterSpacing: 2,
   },
 
-  bottomText: {
-    color: "#75647E",
-    fontSize: 11,
-    textAlign: "center",
-    marginTop: 8,
+  footerText: {
+    color: "#8AA5AE",
+    fontSize: 7,
+    fontWeight: "700",
+    letterSpacing: 1,
+    marginTop: 2,
   },
 });
 

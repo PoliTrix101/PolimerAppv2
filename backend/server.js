@@ -665,7 +665,7 @@ if (require.main === module) {
         console.log("🚀 POLIMERAPP API");
         console.log("====================================");
         console.log(`Local: http://localhost:${PORT}`);
-        console.log(`Network: http://192.168.1.124:${PORT}`);
+        console.log(`Network: http://192.168.137.29:${PORT}`);
         console.log(`Port: ${PORT}`);
         console.log("====================================");
         console.log("");

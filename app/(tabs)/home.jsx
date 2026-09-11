@@ -1,7 +1,8 @@
-
 import { router } from "expo-router";
+import { useEffect, useRef } from "react";
 import {
-  Image,
+  Animated,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -9,307 +10,523 @@ import {
 } from "react-native";
 
 export default function Home() {
+  const waveMove = useRef(new Animated.Value(0)).current;
+  const waveMoveTwo = useRef(new Animated.Value(0)).current;
+  const bubbleMove = useRef(new Animated.Value(0)).current;
+  const sunPulse = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    // Main wave animation
+    Animated.loop(
+      Animated.timing(waveMove, {
+        toValue: 1,
+        duration: 7000,
+        useNativeDriver: true,
+      })
+    ).start();
+
+    // Second wave animation
+    Animated.loop(
+      Animated.timing(waveMoveTwo, {
+        toValue: 1,
+        duration: 9000,
+        useNativeDriver: true,
+      })
+    ).start();
+
+    // Floating bubbles
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(bubbleMove, {
+          toValue: 1,
+          duration: 4500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(bubbleMove, {
+          toValue: 0,
+          duration: 4500,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
+    // Sun breathing animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(sunPulse, {
+          toValue: 1.08,
+          duration: 1800,
+          useNativeDriver: true,
+        }),
+        Animated.timing(sunPulse, {
+          toValue: 1,
+          duration: 1800,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, []);
+
   const handleLogout = () => {
     router.replace("/login");
   };
 
   return (
     <View style={styles.container}>
-
-      {/* =========================
-          BACKGROUND
-      ========================== */}
-
-      <View style={styles.background}>
-        <View style={styles.topPinkCircle} />
-        <View style={styles.bottomPurpleCircle} />
-
-        <Text style={styles.decor1}>✦</Text>
-        <Text style={styles.decor2}>✧</Text>
-        <Text style={styles.decor3}>♡</Text>
-      </View>
-
-      {/* =========================
-          TOP HEADER
-      ========================== */}
+      {/* =========================================
+          ANIMATED OCEAN HEADER
+      ========================================= */}
 
       <View style={styles.header}>
+        {/* Large moving wave */}
 
-        <View style={styles.headerTop}>
-          <View>
-            <Text style={styles.greeting}>
-              WELCOME BACK
-            </Text>
+        <Animated.View
+          style={[
+            styles.waveBackground,
+            {
+              transform: [
+                {
+                  translateX: waveMove.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [-90, 50],
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
 
-            <Text style={styles.appName}>
-              KUROMIAPP
-            </Text>
+        {/* Second moving wave */}
+
+        <Animated.View
+          style={[
+            styles.waveBackgroundTwo,
+            {
+              transform: [
+                {
+                  translateX: waveMoveTwo.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [50, -100],
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+
+        {/* Third subtle wave */}
+
+        <Animated.View
+          style={[
+            styles.waveBackgroundThree,
+            {
+              transform: [
+                {
+                  translateX: waveMove.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [40, -70],
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+
+        {/* Sun */}
+
+        <Animated.View
+          style={[
+            styles.animatedSun,
+            {
+              transform: [
+                {
+                  scale: sunPulse,
+                },
+              ],
+            },
+          ]}
+        />
+
+        <View style={styles.sunGlow} />
+
+        {/* Floating bubbles */}
+
+        <Animated.View
+          style={[
+            styles.bubbleOne,
+            {
+              transform: [
+                {
+                  translateY: bubbleMove.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, -32],
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+
+        <Animated.View
+          style={[
+            styles.bubbleTwo,
+            {
+              transform: [
+                {
+                  translateY: bubbleMove.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, -48],
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+
+        <Animated.View
+          style={[
+            styles.bubbleThree,
+            {
+              transform: [
+                {
+                  translateY: bubbleMove.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, -25],
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+
+        {/* Header content */}
+
+        <View style={styles.headerContent}>
+          <View style={styles.headerTop}>
+            <View>
+              <Text style={styles.greeting}>
+                WELCOME BACK
+              </Text>
+
+              <Text style={styles.appName}>
+                WaveApp
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              style={styles.logoutIconButton}
+              onPress={handleLogout}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.logoutIconText}>
+                →
+              </Text>
+            </TouchableOpacity>
           </View>
 
-          <View style={styles.headerBadge}>
-            <Text style={styles.badgeText}>
-              ♡
+          {/* Wave message */}
+
+          <View style={styles.waveDecoration}>
+            <View style={styles.waveDot} />
+
+            <Text style={styles.waveText}>
+              Ride the wave. Explore more.
             </Text>
           </View>
         </View>
-
-        <Text style={styles.headerSubtitle}>
-          Your cute little space ✦
-        </Text>
-
       </View>
 
-      {/* =========================
-          MAIN CONTENT
-      ========================== */}
+      {/* =========================================
+          SCROLLABLE CONTENT
+      ========================================= */}
 
-      <View style={styles.content}>
-
-        {/* =========================
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+        bounces={true}
+      >
+        {/* =========================================
             WELCOME CARD
-        ========================== */}
+        ========================================= */}
 
         <View style={styles.welcomeCard}>
-
-          {/* KUROMI IMAGE */}
-
-          <View style={styles.kuromiContainer}>
-            <Image
-              source={require("../../assets/images/KUROMIv2.png")}
-              style={styles.kuromiImage}
-              resizeMode="contain"
-            />
+          <View style={styles.surfIcon}>
+            <View style={styles.boardShape}>
+              <View style={styles.boardLine} />
+            </View>
           </View>
 
-          <Text style={styles.welcomeTitle}>
-            Welcome!
-          </Text>
+          <View style={styles.welcomeTextGroup}>
+            <Text style={styles.welcomeTitle}>
+              You're all set!
+            </Text>
 
-          <Text style={styles.welcomeText}>
-            You have successfully logged in.
-            Explore KUROMIAPP and enjoy your
-            personal space.
-          </Text>
-
-          <View style={styles.pinkLine}>
-            <View style={styles.lineLeft} />
-            <Text style={styles.lineHeart}>♡</Text>
-            <View style={styles.lineRight} />
+            <Text style={styles.welcomeText}>
+              Grab your board and paddle into your
+              next adventure.
+            </Text>
           </View>
-
         </View>
 
-        {/* =========================
-            MENU TITLE
-        ========================== */}
+        {/* =========================================
+            STATS
+        ========================================= */}
+
+        <View style={styles.statsRow}>
+          {/* WATER */}
+
+          <View style={styles.statCard}>
+            <View style={styles.waterIcon}>
+              <View style={styles.waterDrop} />
+            </View>
+
+            <Text style={styles.statNumber}>
+              24°
+            </Text>
+
+            <Text style={styles.statLabel}>
+              Water
+            </Text>
+          </View>
+
+          {/* SURF */}
+
+          <View style={styles.statCard}>
+            <View style={styles.surfMiniIcon}>
+              <View style={styles.miniBoard} />
+              <View style={styles.miniWave} />
+            </View>
+
+            <Text style={styles.statNumber}>
+              Good
+            </Text>
+
+            <Text style={styles.statLabel}>
+              Surf
+            </Text>
+          </View>
+
+          {/* BEACH */}
+
+          <View style={styles.statCard}>
+            <View style={styles.beachIcon}>
+              <View style={styles.beachSun} />
+              <View style={styles.beachLine} />
+            </View>
+
+            <Text style={styles.statNumber}>
+              Sunny
+            </Text>
+
+            <Text style={styles.statLabel}>
+              Beach
+            </Text>
+          </View>
+        </View>
+
+        {/* =========================================
+            EXPLORE SECTION
+        ========================================= */}
 
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>
-            Explore
-          </Text>
+          <View>
+            <Text style={styles.sectionLabel}>
+              DISCOVER
+            </Text>
 
-          <Text style={styles.sectionSubtitle}>
-            Choose where you want to go
-          </Text>
+            <Text style={styles.sectionTitle}>
+              Explore
+            </Text>
+          </View>
+
+          <View style={styles.sectionLine} />
         </View>
 
-        {/* =========================
+        {/* =========================================
             GALLERY
-        ========================== */}
+        ========================================= */}
 
         <TouchableOpacity
           style={styles.menuCard}
           activeOpacity={0.85}
           onPress={() => router.push("/(tabs)/gallery")}
         >
-
-          <View style={[styles.menuIcon, styles.galleryIcon]}>
-            <Text style={styles.menuEmoji}>
-              📷
-            </Text>
+          <View
+            style={[
+              styles.menuIcon,
+              styles.iconOcean,
+            ]}
+          >
+            <View style={styles.cameraShape}>
+              <View style={styles.cameraLens} />
+            </View>
           </View>
 
           <View style={styles.menuInfo}>
             <Text style={styles.menuTitle}>
-              Gallery
+              Beach Gallery
             </Text>
 
             <Text style={styles.menuDescription}>
-              View your captured memories
+              View your saved surf adventures
             </Text>
           </View>
 
           <View style={styles.arrowCircle}>
             <Text style={styles.arrow}>
-              →
+              ›
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+        {/* =========================================
+            PADDLE
+        ========================================= */}
+
+        <TouchableOpacity
+          style={styles.menuCard}
+          activeOpacity={0.85}
+        >
+          <View
+            style={[
+              styles.menuIcon,
+              styles.iconSand,
+            ]}
+          >
+            <View style={styles.paddleShape}>
+              <View style={styles.paddleHandle} />
+              <View style={styles.paddleHead} />
+            </View>
+          </View>
+
+          <View style={styles.menuInfo}>
+            <Text style={styles.menuTitle}>
+              Paddle Out
+            </Text>
+
+            <Text style={styles.menuDescription}>
+              Get ready for your next adventure
             </Text>
           </View>
 
+          <View style={styles.arrowCircle}>
+            <Text style={styles.arrow}>
+              ›
+            </Text>
+          </View>
         </TouchableOpacity>
 
-        {/* =========================
+        {/* =========================================
             ABOUT
-        ========================== */}
+        ========================================= */}
 
         <TouchableOpacity
           style={styles.menuCard}
           activeOpacity={0.85}
           onPress={() => router.push("/(tabs)/about")}
         >
-
-          <View style={[styles.menuIcon, styles.aboutIcon]}>
-            <Text style={styles.menuEmoji}>
-              ♡
-            </Text>
+          <View
+            style={[
+              styles.menuIcon,
+              styles.iconSun,
+            ]}
+          >
+            <View style={styles.aboutSun}>
+              <View style={styles.aboutSunCenter} />
+            </View>
           </View>
 
           <View style={styles.menuInfo}>
             <Text style={styles.menuTitle}>
-              About Me
+              About
             </Text>
 
             <Text style={styles.menuDescription}>
-              Learn more about KUROMIAPP
+              Learn more about WaveApp
             </Text>
           </View>
 
           <View style={styles.arrowCircle}>
             <Text style={styles.arrow}>
-              →
+              ›
             </Text>
           </View>
-
         </TouchableOpacity>
 
-        {/* =========================
+        {/* =========================================
             LOGOUT
-        ========================== */}
+        ========================================= */}
 
         <TouchableOpacity
           style={styles.logoutButton}
           activeOpacity={0.85}
           onPress={handleLogout}
         >
-
-          <Text style={styles.logoutIcon}>
-            ↪
-          </Text>
-
           <Text style={styles.logoutText}>
-            Logout
+            Log Out
           </Text>
 
+          <View style={styles.logoutArrow}>
+            <Text style={styles.logoutArrowText}>
+              →
+            </Text>
+          </View>
         </TouchableOpacity>
 
-      </View>
+        <View style={styles.bottomSpace} />
+      </ScrollView>
 
-      {/* =========================
+      {/* =========================================
           FOOTER
-      ========================== */}
+      ========================================= */}
 
       <View style={styles.footer}>
+        <View style={styles.footerWave}>
+          <View style={styles.footerWaveInner} />
+        </View>
+
         <Text style={styles.footerText}>
-          ✦ KUROMIAPP ✦
+          WAVEAPP
+        </Text>
+
+        <Text style={styles.footerSubtext}>
+          RIDE THE WAVES
         </Text>
       </View>
-
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+// ======================================================
+// STYLES
+// ======================================================
 
-  // =========================================
-  // CONTAINER
-  // =========================================
+const styles = StyleSheet.create({
+  // ====================================================
+  // MAIN
+  // ====================================================
 
   container: {
     flex: 1,
-    backgroundColor: "#F8F3FC",
+    backgroundColor: "#F1FAFC",
   },
 
-  // =========================================
-  // BACKGROUND
-  // =========================================
-
-  background: {
-    ...StyleSheet.absoluteFillObject,
-    overflow: "hidden",
-  },
-
-  topPinkCircle: {
-    position: "absolute",
-    width: 220,
-    height: 220,
-    borderRadius: 110,
-    backgroundColor: "#FF72AD",
-    top: -130,
-    right: -80,
-  },
-
-  bottomPurpleCircle: {
-    position: "absolute",
-    width: 230,
-    height: 230,
-    borderRadius: 115,
-    backgroundColor: "#9B59B6",
-    bottom: -150,
-    left: -100,
-  },
-
-  decor1: {
-    position: "absolute",
-    top: 170,
-    left: 25,
-    fontSize: 25,
-    color: "#FF5FA2",
-    fontWeight: "900",
-  },
-
-  decor2: {
-    position: "absolute",
-    top: 300,
-    right: 25,
-    fontSize: 23,
-    color: "#9B59B6",
-    fontWeight: "900",
-  },
-
-  decor3: {
-    position: "absolute",
-    bottom: 130,
-    right: 35,
-    fontSize: 30,
-    color: "#FF5FA2",
-  },
-
-  // =========================================
+  // ====================================================
   // HEADER
-  // =========================================
+  // ====================================================
 
   header: {
-    backgroundColor: "#6C2A83",
+    height: 285,
+    backgroundColor: "#075985",
+    overflow: "hidden",
+    position: "relative",
+  },
 
+  headerContent: {
     paddingTop: 58,
-    paddingHorizontal: 25,
-    paddingBottom: 35,
-
-    borderBottomLeftRadius: 38,
-    borderBottomRightRadius: 38,
-
-    borderBottomWidth: 4,
-    borderBottomColor: "#FF5FA2",
-
-    elevation: 10,
-
-    shadowColor: "#4B1760",
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
+    paddingHorizontal: 24,
+    zIndex: 10,
   },
 
   headerTop: {
@@ -319,233 +536,457 @@ const styles = StyleSheet.create({
   },
 
   greeting: {
-    color: "#FF9BC5",
-    fontSize: 11,
-    fontWeight: "900",
-    letterSpacing: 3,
+    color: "#BAE6FD",
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 2,
     marginBottom: 5,
   },
 
   appName: {
     color: "#FFFFFF",
-    fontSize: 32,
-    fontWeight: "900",
-    letterSpacing: 1,
+    fontSize: 34,
+    fontWeight: "800",
+    letterSpacing: -1,
   },
 
-  headerSubtitle: {
-    color: "#EBD9F2",
-    fontSize: 14,
-    marginTop: 7,
-  },
-
-  headerBadge: {
-    width: 52,
-    height: 52,
-
-    borderRadius: 18,
-
-    backgroundColor: "#FFFFFF",
-
+  logoutIconButton: {
+    width: 45,
+    height: 45,
+    borderRadius: 15,
+    backgroundColor: "rgba(255,255,255,0.16)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.25)",
     justifyContent: "center",
     alignItems: "center",
-
-    borderWidth: 2,
-    borderColor: "#FF72AD",
   },
 
-  badgeText: {
-    fontSize: 27,
-    color: "#FF5FA2",
-    fontWeight: "900",
+  logoutIconText: {
+    color: "#FFFFFF",
+    fontSize: 24,
+    fontWeight: "300",
   },
 
-  // =========================================
+  // ====================================================
+  // ANIMATED WAVES
+  // ====================================================
+
+  waveBackground: {
+    position: "absolute",
+    width: 540,
+    height: 190,
+    borderRadius: 270,
+    backgroundColor: "#0E7490",
+    bottom: -115,
+    left: -110,
+  },
+
+  waveBackgroundTwo: {
+    position: "absolute",
+    width: 570,
+    height: 170,
+    borderRadius: 285,
+    backgroundColor: "#22A6B3",
+    bottom: -125,
+    left: -90,
+    opacity: 0.75,
+  },
+
+  waveBackgroundThree: {
+    position: "absolute",
+    width: 600,
+    height: 145,
+    borderRadius: 300,
+    backgroundColor: "#38BDF8",
+    bottom: -118,
+    left: -100,
+    opacity: 0.22,
+  },
+
+  // ====================================================
+  // SUN
+  // ====================================================
+
+  animatedSun: {
+    position: "absolute",
+    right: 30,
+    top: 53,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    backgroundColor: "#FFF4D6",
+    opacity: 0.95,
+  },
+
+  sunGlow: {
+    position: "absolute",
+    right: 16,
+    top: 39,
+    width: 98,
+    height: 98,
+    borderRadius: 49,
+    backgroundColor: "rgba(255,244,214,0.08)",
+  },
+
+  // ====================================================
+  // BUBBLES
+  // ====================================================
+
+  bubbleOne: {
+    position: "absolute",
+    right: 120,
+    top: 145,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: "rgba(255,255,255,0.35)",
+  },
+
+  bubbleTwo: {
+    position: "absolute",
+    right: 78,
+    top: 175,
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    backgroundColor: "rgba(255,255,255,0.25)",
+  },
+
+  bubbleThree: {
+    position: "absolute",
+    right: 160,
+    top: 185,
+    width: 5,
+    height: 5,
+    borderRadius: 3,
+    backgroundColor: "rgba(255,255,255,0.25)",
+  },
+
+  // ====================================================
+  // WAVE MESSAGE
+  // ====================================================
+
+  waveDecoration: {
+    marginTop: 25,
+    height: 48,
+    borderRadius: 16,
+    backgroundColor: "rgba(255,255,255,0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.18)",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 15,
+  },
+
+  waveDot: {
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+    backgroundColor: "#A5F3FC",
+    marginRight: 10,
+  },
+
+  waveText: {
+    color: "#FFFFFF",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+
+  // ====================================================
   // CONTENT
-  // =========================================
+  // ====================================================
 
   content: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 18,
   },
 
-  // =========================================
+  contentContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 30,
+  },
+
+  // ====================================================
   // WELCOME CARD
-  // =========================================
+  // ====================================================
 
   welcomeCard: {
-    backgroundColor: "#FFFFFF",
-
-    borderRadius: 28,
-
-    paddingHorizontal: 24,
-    paddingTop: 20,
-    paddingBottom: 20,
-
-    alignItems: "center",
-
-    borderWidth: 1.5,
-    borderColor: "#E6D1F0",
-
-    elevation: 8,
-
-    shadowColor: "#6C2A83",
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-  },
-
-  // =========================================
-  // KUROMI IMAGE
-  // =========================================
-
-  kuromiContainer: {
-    width: 88,
-    height: 88,
-
-    borderRadius: 44,
-
-    backgroundColor: "#F7E6F1",
-
-    justifyContent: "center",
-    alignItems: "center",
-
-    borderWidth: 3,
-    borderColor: "#FF5FA2",
-
-    marginBottom: 10,
-
-    overflow: "hidden",
-  },
-
-  kuromiImage: {
-    width: 78,
-    height: 78,
-  },
-
-  welcomeTitle: {
-    color: "#57206D",
-    fontSize: 25,
-    fontWeight: "900",
-    marginBottom: 6,
-  },
-
-  welcomeText: {
-    color: "#786982",
-    fontSize: 13,
-    textAlign: "center",
-    lineHeight: 20,
-    maxWidth: 330,
-  },
-
-  pinkLine: {
-    width: "75%",
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 14,
-  },
-
-  lineLeft: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#E5CBEF",
-  },
-
-  lineRight: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#E5CBEF",
-  },
-
-  lineHeart: {
-    color: "#FF5FA2",
-    fontSize: 17,
-    marginHorizontal: 9,
-  },
-
-  // =========================================
-  // SECTION HEADER
-  // =========================================
-
-  sectionHeader: {
-    marginTop: 20,
-    marginBottom: 10,
-    paddingHorizontal: 3,
-  },
-
-  sectionTitle: {
-    color: "#57206D",
-    fontSize: 20,
-    fontWeight: "900",
-  },
-
-  sectionSubtitle: {
-    color: "#917D9C",
-    fontSize: 12,
-    marginTop: 2,
-  },
-
-  // =========================================
-  // MENU CARD
-  // =========================================
-
-  menuCard: {
-    backgroundColor: "#FFFFFF",
-
-    minHeight: 76,
-
-    borderRadius: 19,
-
-    padding: 12,
-
-    marginBottom: 11,
-
-    flexDirection: "row",
-    alignItems: "center",
-
-    borderWidth: 1.5,
-    borderColor: "#E5D5EC",
-
-    elevation: 4,
-
-    shadowColor: "#6C2A83",
-    shadowOpacity: 0.08,
+    backgroundColor: "#DFF7FA",
+    borderRadius: 20,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "#BCE8EF",
+    marginBottom: 16,
+    shadowColor: "#075985",
+    shadowOpacity: 0.07,
     shadowRadius: 8,
-
     shadowOffset: {
       width: 0,
       height: 3,
     },
+    elevation: 2,
+  },
+
+  surfIcon: {
+    width: 56,
+    height: 56,
+    borderRadius: 17,
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 14,
+  },
+
+  boardShape: {
+    width: 14,
+    height: 40,
+    borderRadius: 9,
+    backgroundColor: "#F2C879",
+    transform: [
+      {
+        rotate: "28deg",
+      },
+    ],
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  boardLine: {
+    width: 2,
+    height: 27,
+    backgroundColor: "#D69E3A",
+  },
+
+  welcomeTextGroup: {
+    flex: 1,
+  },
+
+  welcomeTitle: {
+    color: "#075985",
+    fontSize: 16,
+    fontWeight: "800",
+    marginBottom: 4,
+  },
+
+  welcomeText: {
+    color: "#28788A",
+    fontSize: 12.5,
+    lineHeight: 18,
+  },
+
+  // ====================================================
+  // STATS
+  // ====================================================
+
+  statsRow: {
+    flexDirection: "row",
+    gap: 9,
+    marginBottom: 23,
+  },
+
+  statCard: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 17,
+    paddingVertical: 13,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#D7EEF3",
+    shadowColor: "#075985",
+    shadowOpacity: 0.04,
+    shadowRadius: 5,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    elevation: 1,
+  },
+
+  statNumber: {
+    color: "#075985",
+    fontSize: 12,
+    fontWeight: "800",
+    marginTop: 5,
+  },
+
+  statLabel: {
+    color: "#94A3B8",
+    fontSize: 10,
+    marginTop: 2,
+  },
+
+  // ====================================================
+  // WATER ICON
+  // ====================================================
+
+  waterIcon: {
+    width: 25,
+    height: 25,
+    borderRadius: 13,
+    backgroundColor: "#E0F7FA",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  waterDrop: {
+    width: 10,
+    height: 14,
+    backgroundColor: "#0E7490",
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    transform: [
+      {
+        rotate: "45deg",
+      },
+    ],
+  },
+
+  // ====================================================
+  // SURF ICON
+  // ====================================================
+
+  surfMiniIcon: {
+    width: 25,
+    height: 25,
+    backgroundColor: "#FFF4D6",
+    borderRadius: 13,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  miniBoard: {
+    width: 6,
+    height: 17,
+    borderRadius: 4,
+    backgroundColor: "#D69E3A",
+    transform: [
+      {
+        rotate: "25deg",
+      },
+    ],
+  },
+
+  miniWave: {
+    position: "absolute",
+    width: 14,
+    height: 5,
+    borderTopWidth: 2,
+    borderColor: "#0E7490",
+    bottom: 4,
+  },
+
+  // ====================================================
+  // BEACH ICON
+  // ====================================================
+
+  beachIcon: {
+    width: 25,
+    height: 25,
+    borderRadius: 13,
+    backgroundColor: "#FFF7D6",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  beachSun: {
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+    backgroundColor: "#F2B84B",
+    position: "absolute",
+    top: 5,
+    right: 5,
+  },
+
+  beachLine: {
+    width: 15,
+    height: 2,
+    backgroundColor: "#0E7490",
+    position: "absolute",
+    bottom: 6,
+    left: 5,
+  },
+
+  // ====================================================
+  // SECTION
+  // ====================================================
+
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    marginBottom: 12,
+  },
+
+  sectionLabel: {
+    color: "#0E7490",
+    fontSize: 9,
+    fontWeight: "800",
+    letterSpacing: 2,
+  },
+
+  sectionTitle: {
+    color: "#0F172A",
+    fontSize: 22,
+    fontWeight: "800",
+    marginTop: 2,
+  },
+
+  sectionLine: {
+    width: 70,
+    height: 3,
+    borderRadius: 2,
+    backgroundColor: "#A5F3FC",
+    marginBottom: 5,
+  },
+
+  // ====================================================
+  // MENU CARDS
+  // ====================================================
+
+  menuCard: {
+    backgroundColor: "#FFFFFF",
+    minHeight: 76,
+    borderRadius: 18,
+    padding: 12,
+    marginBottom: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#D7EEF3",
+    shadowColor: "#075985",
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    elevation: 1,
   },
 
   menuIcon: {
-    width: 52,
-    height: 52,
-
-    borderRadius: 16,
-
+    width: 48,
+    height: 48,
+    borderRadius: 15,
     justifyContent: "center",
     alignItems: "center",
-
-    marginRight: 13,
+    marginRight: 12,
   },
 
-  galleryIcon: {
-    backgroundColor: "#FFE0ED",
+  iconOcean: {
+    backgroundColor: "#E0F7FA",
   },
 
-  aboutIcon: {
-    backgroundColor: "#EBD8F5",
+  iconSand: {
+    backgroundColor: "#FFF4D6",
   },
 
-  menuEmoji: {
-    fontSize: 25,
-    color: "#6C2A83",
+  iconSun: {
+    backgroundColor: "#FFF7D6",
   },
 
   menuInfo: {
@@ -553,92 +994,182 @@ const styles = StyleSheet.create({
   },
 
   menuTitle: {
-    color: "#57206D",
-    fontSize: 16,
-    fontWeight: "900",
+    color: "#0F172A",
+    fontSize: 15,
+    fontWeight: "700",
   },
 
   menuDescription: {
-    color: "#918099",
-    fontSize: 11.5,
+    color: "#94A3B8",
+    fontSize: 12,
     marginTop: 3,
   },
 
   arrowCircle: {
-    width: 36,
-    height: 36,
-
-    borderRadius: 18,
-
-    backgroundColor: "#F8E3EE",
-
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: "#E8F9FB",
     justifyContent: "center",
     alignItems: "center",
   },
 
   arrow: {
-    color: "#FF5FA2",
-    fontSize: 21,
-    fontWeight: "900",
+    color: "#0E7490",
+    fontSize: 24,
+    fontWeight: "300",
+    marginTop: -2,
   },
 
-  // =========================================
-  // LOGOUT
-  // =========================================
+  // ====================================================
+  // CAMERA ICON
+  // ====================================================
 
-  logoutButton: {
-    height: 50,
-
-    backgroundColor: "#FF5FA2",
-
-    borderRadius: 16,
-
+  cameraShape: {
+    width: 25,
+    height: 18,
+    borderRadius: 5,
+    backgroundColor: "#0E7490",
     justifyContent: "center",
     alignItems: "center",
-
-    flexDirection: "row",
-
-    marginTop: 4,
-
-    elevation: 5,
-
-    shadowColor: "#FF5FA2",
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
-
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
   },
 
-  logoutIcon: {
-    color: "#FFFFFF",
-    fontSize: 19,
-    fontWeight: "900",
-    marginRight: 8,
+  cameraLens: {
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+    backgroundColor: "#E0F7FA",
+    borderWidth: 2,
+    borderColor: "#FFFFFF",
+  },
+
+  // ====================================================
+  // PADDLE ICON
+  // ====================================================
+
+  paddleShape: {
+    width: 25,
+    height: 30,
+    alignItems: "center",
+  },
+
+  paddleHandle: {
+    width: 3,
+    height: 20,
+    backgroundColor: "#B8872D",
+  },
+
+  paddleHead: {
+    width: 13,
+    height: 9,
+    borderRadius: 5,
+    backgroundColor: "#D69E3A",
+    marginTop: -1,
+  },
+
+  // ====================================================
+  // ABOUT ICON
+  // ====================================================
+
+  aboutSun: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#F2B84B",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  aboutSunCenter: {
+    width: 13,
+    height: 13,
+    borderRadius: 7,
+    backgroundColor: "#FFF4D6",
+  },
+
+  // ====================================================
+  // LOGOUT
+  // ====================================================
+
+  logoutButton: {
+    height: 52,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 8,
+    borderWidth: 1.5,
+    borderColor: "#BCE8EF",
+    backgroundColor: "#E8F9FB",
+    flexDirection: "row",
   },
 
   logoutText: {
-    color: "#FFFFFF",
-    fontSize: 15,
-    fontWeight: "900",
+    color: "#0E7490",
+    fontSize: 14,
+    fontWeight: "800",
   },
 
-  // =========================================
+  logoutArrow: {
+    width: 27,
+    height: 27,
+    borderRadius: 14,
+    backgroundColor: "#DFF7FA",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 9,
+  },
+
+  logoutArrowText: {
+    color: "#0E7490",
+    fontSize: 16,
+  },
+
+  // ====================================================
+  // BOTTOM
+  // ====================================================
+
+  bottomSpace: {
+    height: 20,
+  },
+
+  // ====================================================
   // FOOTER
-  // =========================================
+  // ====================================================
 
   footer: {
     alignItems: "center",
-    paddingBottom: 13,
+    paddingTop: 8,
+    paddingBottom: 15,
+    backgroundColor: "#F1FAFC",
+  },
+
+  footerWave: {
+    width: 30,
+    height: 8,
+    overflow: "hidden",
+    marginBottom: 5,
+  },
+
+  footerWaveInner: {
+    width: 35,
+    height: 15,
+    borderRadius: 20,
+    borderTopWidth: 2,
+    borderColor: "#A5F3FC",
   },
 
   footerText: {
-    color: "#9B59B6",
-    fontSize: 10,
-    fontWeight: "900",
-    letterSpacing: 3,
+    color: "#0E7490",
+    fontSize: 9,
+    fontWeight: "800",
+    letterSpacing: 2,
   },
-});
 
+  footerSubtext: {
+    color: "#94A3B8",
+    fontSize: 7,
+    fontWeight: "700",
+    letterSpacing: 1.5,
+    marginTop: 2,
+  },
+}); 
